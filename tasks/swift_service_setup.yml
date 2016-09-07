@@ -169,12 +169,6 @@
   retries: 5
   delay: 10
 
-# KNOWN ISSUE(stevelle) Never fail. Swift playbook runs before Gnocchi in a
-# standard deploy. The project for Gnocchi will not have been created yet.
-# There is a known issue in project / user / role lifecycles that causes a
-# circular service dependency here. The Swift playbook must be run a second
-# time, after the Gnocchi playbook runs, when it uses Swift storage as a
-# workaround.
 - name: Get Gnocchi project id
   keystone:
     command: get_project
@@ -185,7 +179,9 @@
     login_project_name: "{{ keystone_admin_tenant_name }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
   register: get_gnocchi_project
-  failed_when: False
+  until: get_gnocchi_project|success
+  retries: 5
+  delay: 10
   when:
     - swift_gnocchi_enabled | bool
     - swift_gnocchi_service_project_id is not defined

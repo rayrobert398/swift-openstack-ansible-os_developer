@@ -154,6 +154,10 @@ swift_account_disable_fallocate: "{{ swift_disable_fallocate }}"
 swift_container_disable_fallocate: "{{ swift_disable_fallocate }}"
 swift_object_disable_fallocate: "{{ swift_disable_fallocate }}"
 
+# This variable will protect against changing swift_hash_path_* variables unintentionally.
+# If you wish to change them intentionally set the swift_force_change_hashes variable to True.
+swift_force_change_hashes: False
+
 ## Swift ceilometer variables
 swift_reselleradmin_role: ResellerAdmin
 

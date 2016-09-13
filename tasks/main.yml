@@ -37,6 +37,13 @@
   tags:
     - always
 
+# Check the swift_hash_path_* variables haven't changed
+- include: swift_check_hashes.yml
+  when:
+    - not swift_force_change_hashes | bool
+  tags:
+    - swift-config
+
 - include: swift_pre_install.yml
   when:
     - swift_do_setup | bool

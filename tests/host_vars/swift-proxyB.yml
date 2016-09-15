@@ -14,6 +14,7 @@
 # limitations under the License.
 
 ansible_ssh_host: 10.1.11.102
+ansible_host: 10.1.11.102
 storage_address: 10.1.12.102
 container_networks:
   management_address:

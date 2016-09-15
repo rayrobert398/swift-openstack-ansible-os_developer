@@ -14,6 +14,7 @@
 # limitations under the License.
 
 ansible_ssh_host: 10.1.1.101
+ansible_host: 10.1.1.101
 container_networks:
   management_address:
     address: "{{ ansible_ssh_host }}"

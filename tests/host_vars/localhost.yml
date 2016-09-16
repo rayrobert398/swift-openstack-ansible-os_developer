@@ -13,12 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ansible_ssh_host: 10.1.11.101
-ansible_host: 10.1.11.101
-container_networks:
-  management_address:
-    address: "{{ ansible_ssh_host }}"
-    bridge: "br-mgmtB"
-    interface: "eth1"
-    netmask: "255.255.255.0"
-    type: "veth"
+ansible_python_interpreter: "/usr/bin/python2"
+ansible_become: True

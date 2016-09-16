@@ -1,5 +1,4 @@
-
-
+---
 - name: Setup testing - run Swift functional tests
   hosts: swift_proxy[0]
   user: root
@@ -101,7 +100,7 @@
   - name: Install requirements for swift
     pip:
       requirements: "{{ item }}"
-      virtualenv: "{{ swift_bin | dirname }}"
+      virtualenv: "{{ swift_venv_bin | dirname }}"
     with_items:
       - "/opt/swift/test-requirements.txt"
   - name: Setup test.conf for testing
@@ -115,3 +114,5 @@
     args:
       chdir: "/opt/swift/"
       executable: "/bin/bash"
+  vars_files:
+    - playbooks/test-vars.yml

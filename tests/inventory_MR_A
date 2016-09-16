@@ -1,28 +1,35 @@
 [all]
-localhost ansible_connection=local ansible_become=True
-infraA1
+localhost
+infraMR
 swift-proxyA
 swift-storageA1
 swift-storageA2
 
 [all_containers]
-infraA1
+infraMR
 swift-proxyA
 swift-storageA1
 swift-storageA2
+swift-proxyB
+swift-storageB1
+swift-storageB2
 
 [galera_all]
-infraA1
+infraMR
 
 [memcached_all]
-infraA1
+infraMR
+
+[rabbitmq_all]
+infraMR
 
 [service_all:children]
 galera_all
 memcached_all
+rabbitmq_all
 
 [keystone_all]
-infraA1
+infraMR
 
 [swift_hosts]
 swift-storageA1

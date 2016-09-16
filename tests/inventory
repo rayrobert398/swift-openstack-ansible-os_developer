@@ -1,5 +1,5 @@
 [all]
-localhost ansible_connection=local ansible_become=True
+localhost
 infra1
 swift-proxy
 swift-storage1
@@ -21,9 +21,13 @@ infra1
 [memcached_all]
 infra1
 
+[rabbitmq_all]
+infra1
+
 [service_all:children]
 galera_all
 memcached_all
+rabbitmq_all
 
 [keystone_all]
 infra1

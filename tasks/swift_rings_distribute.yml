@@ -20,7 +20,7 @@
 - name: "Get swift rings"
   command: |
     rsync -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
-          -avz {{ swift_system_user_name }}@{{ hostvars[groups['swift_hosts'][0]]['ansible_ssh_host'] }}:/etc/swift/ring_build_files/ \
+          -avz {{ swift_system_user_name }}@{{ hostvars[groups['swift_hosts'][0]]['ansible_host'] }}:/etc/swift/ring_build_files/ \
           /etc/swift/
   become: yes
   become_user: "{{ swift_system_user_name }}"
@@ -28,7 +28,7 @@
 - name: "Get swift rings for backup in ring_build_files directory"
   command: |
     rsync -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
-          -avz {{ swift_system_user_name }}@{{ hostvars[groups['swift_hosts'][0]]['ansible_ssh_host'] }}:/etc/swift/ring_build_files/ \
+          -avz {{ swift_system_user_name }}@{{ hostvars[groups['swift_hosts'][0]]['ansible_host'] }}:/etc/swift/ring_build_files/ \
           /etc/swift/ring_build_files/
   become: yes
   become_user: "{{ swift_system_user_name }}"

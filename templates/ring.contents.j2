@@ -47,10 +47,10 @@
 {### Loop through the swift_hosts #}
 {% for host in groups['swift_hosts'] %}
 {### Set the default storage_ip #}
-{%   set def_storage_ip = hostvars[host]['ansible_ssh_host'] %}
+{%   set def_storage_ip = hostvars[host]['ansible_host'] %}
 {%   if swift.storage_network is defined %}
 {%     set storage_bridge = 'ansible_' + swift.storage_network|replace('-', '_') %}
-{%     set def_storage_ip = hostvars[host][storage_bridge]['ipv4']['address'] | default(hostvars[host]['ansible_ssh_host']) %}
+{%     set def_storage_ip = hostvars[host][storage_bridge]['ipv4']['address'] | default(hostvars[host]['ansible_host']) %}
 {%   endif %}
 {### Set the default replication_ip #}
 {%   set def_repl_ip = def_storage_ip %}
@@ -84,9 +84,9 @@
 {%       set storage_port = drive.storage_port | default(swift_vars.storage_port | default(port)) %}
 {###     Update the device with the appropriate values #}
 {%       set _update = device.update({'device':drive.name}) %}
-{%       set _update = device.update({'weight': weight}) %}
-{%       set _update = device.update({'region': region}) %}
-{%       set _update = device.update({'zone': zone}) %}
+{%       set _update = device.update({'weight': weight|int}) %}
+{%       set _update = device.update({'region': region|int}) %}
+{%       set _update = device.update({'zone': zone|int}) %}
 {%       set _update = device.update({'replication_ip': repl_ip}) %}
 {%       set _update = device.update({'replication_port': repl_port|int}) %}
 {%       set _update = device.update({'ip': storage_ip}) %}

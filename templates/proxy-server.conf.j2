@@ -191,7 +191,7 @@ url = rabbit://{% for host in swift_rabbitmq_telemetry_servers.split(',') %}{{ s
 
 topic = notifications
 {% if swift_gnocchi_service_project_id is defined %}
-ignore_projects = "{{ swift_gnocchi_service_project_id }}""
+ignore_projects = {{ swift_gnocchi_service_project_id }}
 {% endif %}
 log_level = WARN
 {% endif %}

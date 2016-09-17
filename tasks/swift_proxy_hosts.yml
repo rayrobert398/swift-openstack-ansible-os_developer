@@ -13,6 +13,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Get Gnocchi project id
+  keystone:
+    command: get_project
+    tenant_name: "{{ gnocchi_service_project_name }}"
+    endpoint: "{{ keystone_service_adminurl }}"
+    login_user: "{{ keystone_admin_user_name }}"
+    login_password: "{{ keystone_auth_admin_password }}"
+    login_project_name: "{{ keystone_admin_tenant_name }}"
+    insecure: "{{ keystone_service_adminuri_insecure }}"
+  register: get_gnocchi_project
+  until: get_gnocchi_project|success
+  retries: 5
+  delay: 10
+  when:
+    - swift_gnocchi_enabled | bool
+
+- name: Store Gnocchi project id
+  set_fact:
+    swift_gnocchi_service_project_id: "{{ keystone_facts.id }}"
+  when:
+    - swift_gnocchi_enabled | bool
+    - get_gnocchi_project | success
+
 - include: swift_init_common.yml
   vars:
     program_name: "swift-proxy-server"

@@ -100,6 +100,25 @@ operator_roles = admin, swiftoperator
 reseller_admin_role = {{ swift_reselleradmin_role }}
 {% endif %}
 
+{% if 'swift3' in swift_middleware_list %}
+[filter:swift3]
+use = egg:swift3#swift3
+
+allow_no_owner = {{ swift_swift3_allow_no_owner }}
+location = {{ swift_swift3_location }}
+max_bucket_listing = {{ swift_swift3_max_bucket_listing }}
+max_multi_delete_objects = {{ swift_swift3_max_multi_delete_objects }}
+s3_acl = {{ swift_swift3_s3_acl }}
+storage_domain = {{ swift_swift3_storage_domain }}
+
+{% endif %}
+
+{% if 's3token' in swift_middleware_list %}
+[filter:s3token]
+use = egg:swift3#s3token
+auth_uri = {{ keystone_service_adminuri }}
+{% endif %}
+
 [filter:healthcheck]
 use = egg:swift#healthcheck
 

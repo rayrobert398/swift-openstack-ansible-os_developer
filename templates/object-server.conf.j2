@@ -36,7 +36,7 @@ log_facility = LOG_LOCAL4
 recon_cache_path = /var/cache/swift
 recon_lock_path = /var/lock
 
-{% if swift.replication_network is not defined or swift.replication_network == swift.storage_network %}
+{% if not swift_dedicated_replication %}
 [object-replicator]
 log_facility = LOG_LOCAL4
 concurrency = 6

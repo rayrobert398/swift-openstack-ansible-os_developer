@@ -215,6 +215,8 @@ swift_proxy_server_program_config_options: /etc/swift/proxy-server/proxy-server.
 swift_storage_address: 127.0.0.1
 swift_replication_address: 127.0.0.1
 
+swift_dedicated_replication: "{{ (swift.replication_network is defined and swift.replication_network != swift.storage_network) | bool }}"
+
 swift_service_in_ldap: false
 
 # Basic swift configuration for the cluster

@@ -13,31 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# When using a replication network use the specific replicator configuration
 # When not using a replication network use the default configuration
 - include: swift_init_common.yml
   vars:
     program_name: "swift-container-replicator"
-    program_config_options: "{{ swift_container_server_program_config_options }}"
+    program_config_options: "{{ swift_dedicated_replication | ternary(
+               'swift_container_replicator_program_config_options',
+               'swift_container_server_program_config_options') }}"
     service_name: "{{ swift_service_name }}"
     system_user: "{{ swift_system_user_name }}"
     system_group: "{{ swift_system_group_name }}"
     service_home: "{{ swift_system_home_folder }}"
-  when: >
-    swift.replication_network is not defined or
-    swift.replication_network == swift.storage_network
-
-# When using a replication network use the specific replicator configuration
-- include: swift_init_common.yml
-  vars:
-    program_name: "swift-container-replicator"
-    program_config_options: "{{ swift_container_replicator_program_config_options }}"
-    service_name: "{{ swift_service_name }}"
-    system_user: "{{ swift_system_user_name }}"
-    system_group: "{{ swift_system_group_name }}"
-    service_home: "{{ swift_system_home_folder }}"
-  when:
-    - swift.replication_network is defined
-    - swift.replication_network != swift.storage_network
 
 # When using a replication network create a second server for dedicated replicator configuration
 # This will be a blank file if not using dedicated replication network to prevent errors
@@ -66,26 +53,13 @@
 - include: swift_init_common.yml
   vars:
     program_name: "swift-container-auditor"
-    program_config_options: "{{ swift_container_server_program_config_options }}"
+    program_config_options: "{{ swift_dedicated_replication | ternary(
+               'swift_container_replicator_program_config_options',
+               'swift_container_server_program_config_options') }}"
     service_name: "{{ swift_service_name }}"
     system_user: "{{ swift_system_user_name }}"
     system_group: "{{ swift_system_group_name }}"
     service_home: "{{ swift_system_home_folder }}"
-  when: >
-    swift.replication_network is not defined or
-    swift.replication_network == swift.storage_network
-
-- include: swift_init_common.yml
-  vars:
-    program_name: "swift-container-auditor"
-    program_config_options: "{{ swift_container_replicator_program_config_options }}"
-    service_name: "{{ swift_service_name }}"
-    system_user: "{{ swift_system_user_name }}"
-    system_group: "{{ swift_system_group_name }}"
-    service_home: "{{ swift_system_home_folder }}"
-  when:
-    - swift.replication_network is defined
-    - swift.replication_network != swift.storage_network
 
 - include: swift_init_common.yml
   vars:
@@ -158,9 +132,7 @@
     mode: "0644"
     config_overrides: "{{ swift_container_server_replicator_conf_overrides }}"
     config_type: "ini"
-  when:
-    - swift.replication_network is defined
-    - swift.replication_network != swift.storage_network
+  when: swift_dedicated_replication
   notify: Restart swift container services
 
 # Remove the dedicated replicator configuration when no dedicated replication network in use
@@ -168,6 +140,4 @@
   file:
     state: absent
     path: "/etc/swift/container-server/container-server-replicator.conf"
-  when: >
-    swift.replication_network is not defined or
-    swift.replication_network == swift.storage_network
+  when: not swift_dedicated_replication

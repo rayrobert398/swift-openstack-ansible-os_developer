@@ -14,8 +14,8 @@
 # limitations under the License.
 
 - include: install-apt.yml
-  when:
-    - ansible_pkg_mgr == 'apt'
+  static: no
+  when: ansible_pkg_mgr == 'apt'
 
 - name: Create developer mode constraint file
   copy:
@@ -157,4 +157,5 @@
     - swift_get_venv | success
 
 - include: swift_pypy_setup.yml
+  static: no
   when: swift_pypy_enabled | bool

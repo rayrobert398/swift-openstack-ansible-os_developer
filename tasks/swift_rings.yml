@@ -16,17 +16,14 @@
 - include: swift_rings_md5sum.yml
 
 - include: swift_rings_check.yml
-  when: >
-    inventory_hostname == groups['swift_hosts'][0]
+  when: inventory_hostname == groups['swift_hosts'][0]
 
 - include: swift_rings_build.yml
-  when: >
-    inventory_hostname == groups['swift_hosts'][0]
+  when: inventory_hostname == groups['swift_hosts'][0]
 
 - include: swift_rings_distribute.yml
 
 - include: swift_rings_md5sum.yml
 
 - include: swift_rings_post_distribution_check.yml
-  when: >
-    inventory_hostname == groups['swift_hosts'][0]
+  when: inventory_hostname == groups['swift_hosts'][0]

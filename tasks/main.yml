@@ -39,8 +39,8 @@
 
 # Check the swift_hash_path_* variables haven't changed
 - include: swift_check_hashes.yml
-  when:
-    - not swift_force_change_hashes | bool
+  static: no
+  when: not swift_force_change_hashes | bool
   tags:
     - swift-config
 
@@ -107,20 +107,20 @@
   meta: flush_handlers
 
 - include: swift_key_setup.yml
-  when:
-    - swift_do_sync | bool
+  static: no
+  when: swift_do_sync | bool
   tags:
     - swift-config
 
 - include: swift_rings.yml
-  when:
-    - swift_do_sync | bool
+  static: no
+  when: swift_do_sync | bool
   tags:
     - swift-install
     - swift-config
 
 - include: swift_sync_post_install.yml
-  when:
-    - swift_do_sync | bool
+  static: no
+  when: swift_do_sync | bool
   tags:
     - always

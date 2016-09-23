@@ -140,4 +140,4 @@
   file:
     state: absent
     path: "/etc/swift/container-server/container-server-replicator.conf"
-  when: not swift_dedicated_replication
+  when: not swift_dedicated_replication | bool

@@ -211,11 +211,18 @@ swift_proxy_server_program_config_options: /etc/swift/proxy-server/proxy-server.
 # of available VCPUS to compute the number of api workers to use.
 # swift_proxy_server_workers: 16
 
-# This is the storage addressed used to define the network for swift replication
-swift_storage_address: 127.0.0.1
-swift_replication_address: 127.0.0.1
+# These are the storage addresses used to define the networks for swift storage and replication
+# These are calculated by the tasks based on the "storage_network" and "replication_network" values
+# set in the swift variables, if you set these per host the value won't be calculated.
+# Setting swift_vars.storage_ip or swift_vars.repl_ip will take precedence.
+# If none are set it will default to the "ansible_host" value.
+# swift_storage_address: 127.0.0.1
+# swift_replication_address: 127.0.0.1
 
-swift_dedicated_replication: "{{ (swift.replication_network is defined and swift.replication_network != swift.storage_network) | bool }}"
+# This var is calculated by the play itself, and should not need to be set
+# It is defaulted for the benefit of the swift_proxy host which needs it
+# for the swift-init-upstart.j2 template file.
+swift_dedicated_replication: False
 
 swift_service_in_ldap: false
 

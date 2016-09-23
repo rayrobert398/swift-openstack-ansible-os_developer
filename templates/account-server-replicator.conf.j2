@@ -6,8 +6,7 @@
 [DEFAULT]
 # Disable stderr logging
 use_stderr = False
-{% set repl_bridge = 'ansible_' + swift.replication_network|replace('-', '_') %}
-bind_ip = {{ hostvars[inventory_hostname][repl_bridge]['ipv4']['address'] }}
+bind_ip = {{ swift_replication_address }}
 bind_port = {{ swift_account_port }}
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
 workers = {{ swift_account_server_replicator_workers | default(api_threads) }}

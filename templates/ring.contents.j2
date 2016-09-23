@@ -46,25 +46,16 @@
 {% endfor %}
 {### Loop through the swift_hosts #}
 {% for host in groups['swift_hosts'] %}
-{### Set the default storage_ip #}
-{%   set def_storage_ip = hostvars[host]['ansible_host'] %}
-{%   if swift.storage_network is defined %}
-{%     set storage_bridge = 'ansible_' + swift.storage_network|replace('-', '_') %}
-{%     set def_storage_ip = hostvars[host][storage_bridge]['ipv4']['address'] | default(hostvars[host]['ansible_host']) %}
-{%   endif %}
-{### Set the default replication_ip #}
-{%   set def_repl_ip = def_storage_ip %}
-{%   if swift.replication_network is defined %}
-{%     set repl_bridge = 'ansible_' + swift.replication_network|replace('-', '_') %}
-{%     set def_repl_ip = hostvars[host][repl_bridge]['ipv4']['address'] | default(def_storage_ip) %}
-{%   endif %}
 {### Default swift_vars to an empty dict if not defined #}
-{### swift_vars needs to exist for swift_vars[setting] checks to wrok #}
+{### swift_vars needs to exist for swift_vars[setting] checks to work #}
 {%   if hostvars[host]['swift_vars'] is defined %}
 {%     set swift_vars = hostvars[host]['swift_vars'] %}
 {%   else %}
 {%     set swift_vars = {} %}
 {%   endif %}
+{### Set the storage and repl ip #}
+{%   set storage_ip = hostvars[host]['swift_storage_address'] %}
+{%   set repl_ip = hostvars[host]['swift_replication_address'] %}
 {### Get the drives use swift global as default #}
 {%   set drives = swift_vars.drives | default(swift.drives | default([])) %}
 {### Loop through the drives #}
@@ -78,19 +69,15 @@
 {%       set weight = drive.weight | default(swift_vars.weight | default(swift.weight | default(swift_default_drive_weight))) %}
 {%       set region = drive.region | default(swift_vars.region | default(swift.region | default(swift_default_host_region))) %}
 {%       set zone = drive.zone | default(swift_vars.zone | default(swift.zone | default(swift_default_host_zone))) %}
-{%       set repl_ip = drive.repl_ip | default(swift_vars.repl_ip | default(def_repl_ip)) %}
-{%       set repl_port = drive.repl_port | default(swift_vars.repl_port | default(port)) %}
-{%       set storage_ip = drive.storage_ip | default(swift_vars.storage_ip | default(def_storage_ip)) %}
-{%       set storage_port = drive.storage_port | default(swift_vars.storage_port | default(port)) %}
 {###     Update the device with the appropriate values #}
 {%       set _update = device.update({'device':drive.name}) %}
 {%       set _update = device.update({'weight': weight|int}) %}
 {%       set _update = device.update({'region': region|int}) %}
 {%       set _update = device.update({'zone': zone|int}) %}
 {%       set _update = device.update({'replication_ip': repl_ip}) %}
-{%       set _update = device.update({'replication_port': repl_port|int}) %}
+{%       set _update = device.update({'replication_port': port|int}) %}
 {%       set _update = device.update({'ip': storage_ip}) %}
-{%       set _update = device.update({'port': storage_port|int}) %}
+{%       set _update = device.update({'port': port|int}) %}
 {###     Append the device to the drives list of the builder dict #}
 {%       set _update = builder.drives.append(device) %}
 {%     endif %}

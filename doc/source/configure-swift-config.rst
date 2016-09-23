@@ -99,8 +99,8 @@ file**
        dedicated replication can be setup. If this value is not
        specified, no dedicated ``replication_network`` is set.
 
-       Replication does not work properly if the ``repl_ip`` is not set on
-       the ``replication_network`` interface.
+       Replication does not work properly if the ``repl_ip`` is not able to
+       connect to other hosts ``repl_ip``.
 
    ``drives``
        Set the default drives per host. This is useful when all hosts
@@ -222,8 +222,6 @@ file**
        #           - silver
        #         drives:
        #           - name: sdb
-       #             storage_ip: 198.51.100.9
-       #             repl_ip: 203.0.113.9
        #             weight: 75
        #             groups:
        #               - gold
@@ -250,11 +248,6 @@ file**
        is specified, then the ``repl_ip`` defaults to the ``storage_ip``.
        If neither are specified, both default to the host IP
        address.
-
-       Overriding these values on a host or drive basis can cause
-       problems if the IP address that the service listens on is based
-       on a specified ``storage_network`` or ``replication_network`` and
-       the ring is set to a different IP address.
 
    ``zone``
        The default is 0. Optionally, set the swift zone for the
@@ -286,9 +279,8 @@ file**
    In the following example, ``swift-node5`` shows values in the
    ``swift_hosts`` section that override the global values. Groups
    are set, which overrides the global settings for drive ``sdb``. The
-   weight is overridden for the host and specifically adjusted on drive
-   ``sdb``. Also, the ``storage_ip`` and ``repl_ip`` are set differently
-   for ``sdb``.
+   weight is overridden for the host and specifically adjusted for drive
+   ``sdb``.
 
    .. code-block:: yaml
 
@@ -307,8 +299,6 @@ file**
        #           - silver
        #         drives:
        #           - name: sdb
-       #             storage_ip: 198.51.100.9
-       #             repl_ip: 203.0.113.9
        #             weight: 75
        #             groups:
        #               - gold

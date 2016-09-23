@@ -73,6 +73,12 @@
   tags:
     - always
 
+- include: swift_calculate_addresses.yml
+  when:
+    - inventory_hostname in groups['swift_hosts']
+  tags:
+    - always
+
 - include: swift_storage_hosts.yml
   when:
     - inventory_hostname in groups['swift_hosts']

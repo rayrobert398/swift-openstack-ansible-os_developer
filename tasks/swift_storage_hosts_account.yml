@@ -99,4 +99,4 @@
   file:
     state: absent
     path: "/etc/swift/account-server/account-server-replicator.conf"
-  when: not swift_dedicated_replication
+  when: not swift_dedicated_replication | bool

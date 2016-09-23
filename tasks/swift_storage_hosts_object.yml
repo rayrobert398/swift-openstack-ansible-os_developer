@@ -117,7 +117,7 @@
   file:
     state: absent
     path: "/etc/swift/object-server/object-server-replicator.conf"
-  when: not swift_dedicated_replication
+  when: not swift_dedicated_replication | bool
 
 - name: Deploy drive-audit configuration file
   config_template:

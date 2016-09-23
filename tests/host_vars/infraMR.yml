@@ -21,3 +21,6 @@ container_networks:
     interface: "eth1"
     netmask: "255.255.255.0"
     type: "veth"
+    static_routes:
+      - cidr: "10.1.11.0/24"
+        gateway: "10.1.1.1"

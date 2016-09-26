@@ -14,3 +14,4 @@
 # limitations under the License.
 
 test_swift_region: 2
+test_swift_repl_network: "eth2"

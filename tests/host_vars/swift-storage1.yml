@@ -13,9 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# This host is testing the path where "swift_storage_address" and "swift_replication_address" are set
+
 ansible_host: 10.1.1.103
-storage_address: 10.1.2.103
-replication_address: 10.1.3.103
+swift_storage_address: 10.1.2.103
+swift_replication_address: 10.1.3.103
 container_networks:
   management_address:
     address: "{{ ansible_host }}"
@@ -24,13 +26,13 @@ container_networks:
     netmask: "255.255.255.0"
     type: "veth"
   storage_address:
-    address: "{{ storage_address }}"
+    address: "{{ swift_storage_address }}"
     bridge: "br-storage"
     interface: "eth2"
     netmask: "255.255.255.0"
     type: "veth"
   replication_address:
-    address: "{{ replication_address }}"
+    address: "{{ swift_replication_address }}"
     bridge: "br-repl"
     interface: "eth3"
     netmask: "255.255.255.0"

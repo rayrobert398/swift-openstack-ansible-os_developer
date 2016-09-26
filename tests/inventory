@@ -5,7 +5,6 @@ swift-proxy
 swift-storage1
 swift-storage2
 swift-storage3
-swift-storage4
 
 [all_containers]
 infra1
@@ -13,7 +12,6 @@ swift-proxy
 swift-storage1
 swift-storage2
 swift-storage3
-swift-storage4
 
 [galera_all]
 infra1
@@ -36,7 +34,6 @@ infra1
 swift-storage1
 swift-storage2
 swift-storage3
-swift-storage4
 
 [swift_proxy]
 swift-proxy
@@ -45,19 +42,16 @@ swift-proxy
 swift-storage1
 swift-storage2
 swift-storage3
-swift-storage4
 
 [swift_cont]
 swift-storage1
 swift-storage2
 swift-storage3
-swift-storage4
 
 [swift_obj]
 swift-storage1
 swift-storage2
 swift-storage3
-swift-storage4
 
 [swift_all:children]
 swift_acc

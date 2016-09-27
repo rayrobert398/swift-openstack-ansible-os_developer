@@ -126,6 +126,6 @@
 
 - name: Set swift_dedicated_replication network if storage and replication addresses differ
   set_fact:
-    swift_dedicated_replication: "{{ swift_storage_address != swift_replication_address | bool }}"
+    swift_dedicated_replication: "{{ swift_storage_address != swift_replication_address }}"
   tags:
     - always

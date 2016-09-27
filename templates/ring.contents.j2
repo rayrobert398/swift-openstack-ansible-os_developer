@@ -30,9 +30,9 @@
 {### Create the builder dict #}
 {% set builder = {} %}
 {### This is a hacky way of updating the builder dict #}
-{% set _update = builder.update({'min_part_hours':min_part_hours}) %}
-{% set _update = builder.update({'repl_number':repl_number}) %}
-{% set _update = builder.update({'part_power':part_power}) %}
+{% set _update = builder.update({'min_part_hours':min_part_hours|int}) %}
+{% set _update = builder.update({'repl_number':repl_number|int}) %}
+{% set _update = builder.update({'part_power':part_power|int}) %}
 {% set _update = builder.update({'builder_file':builder_file}) %}
 {### Now we need to add the drives #}
 {### Create an update the builder dict to have drives as an empty list #}

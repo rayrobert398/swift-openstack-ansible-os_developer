@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # Setup the keys, host and containers
-- include: playbooks/test-setup-host.yml
+- include: common/test-setup-host.yml
 
 # Install Memcached/Galera/Rabbitmq
-- include: playbooks/test-install-infra.yml
+- include: common/test-install-infra.yml
 
 # Install Keystone
-- include: playbooks/test-install-keystone.yml
+- include: common/test-install-keystone.yml
 
 # Install Swift
-- include: playbooks/test-install-swift.yml
+- include: common/test-install-swift.yml

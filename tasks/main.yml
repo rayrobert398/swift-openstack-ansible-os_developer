@@ -107,9 +107,6 @@
   tags:
     - swift-install
 
-- name: Flush handlers
-  meta: flush_handlers
-
 - include: swift_key_setup.yml
   static: no
   when: swift_do_sync | bool
@@ -122,6 +119,9 @@
   tags:
     - swift-install
     - swift-config
+
+- name: Flush handlers
+  meta: flush_handlers
 
 - include: swift_sync_post_install.yml
   static: no

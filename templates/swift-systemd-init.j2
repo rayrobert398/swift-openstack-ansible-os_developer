@@ -12,7 +12,7 @@ Group={{ swift_system_group_name }}
 {% if item.value.program_override is defined %}
 ExecStart={{ item.value.program_override }} {{ item.value.program_config_options|default('') }}
 {% else %}
-ExecStart={{ swift_bin }}/{{ item.value.program_name }} {{ item.value.program_config_options|default('') }}
+ExecStart={{ swift_bin }}/{{ item.value.program_binary | default(item.value.program_name) }} {{ item.value.program_config_options|default('') }}
 {% endif %}
 
 # Give a reasonable amount of time for the server to start up/shut down

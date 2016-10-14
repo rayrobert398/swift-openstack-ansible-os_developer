@@ -30,7 +30,9 @@
     state: "restarted"
     pattern: "{{ item.value.program_name }}"
   with_dict: "{{ swift_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  when:
+    - inventory_hostname in groups[item.value.group]
+    - "{{ item.value.service_en | default(true) }}"
 
 - name: Restart rsyslog
   service:

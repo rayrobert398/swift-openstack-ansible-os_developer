@@ -1,8 +1,4 @@
 # {{ ansible_managed }}
-{% if not swift_dedicated_replication and 'replicator-server' in item.value.program_name %}
-# Blank script - dedicated replication network not in use
-{% else %}
-
 description "{{ item.value.program_name }}"
 author "Kevin Carter <kevin.carter@rackspace.com>"
 
@@ -41,4 +37,3 @@ exec start-stop-daemon --start \
                        --make-pidfile \
                        --pidfile /var/run/{{ item.value.program_binary | default(item.value.program_name) }}/{{ item.value.program_name }}.pid \
                        --exec "{{ item.value.program_override|default('$RUNBIN') }}" "{{ item.value.program_config_options|default('') }}"
-{% endif %}

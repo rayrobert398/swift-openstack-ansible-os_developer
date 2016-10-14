@@ -296,6 +296,7 @@ swift_services:
     program_name: "swift-account-replicator-server"
     program_binary: "swift-account-server"
     program_config_options: "/etc/swift/account-server/account-server-replicator.conf"
+    service_en: "{{ swift_dedicated_replication | bool }}"
   swift-account-server:
     group: swift_acc
     program_name: "swift-account-server"
@@ -317,6 +318,7 @@ swift_services:
     program_name: "swift-container-replicator-server"
     program_binary: "swift-container-server"
     program_config_options: "/etc/swift/container-server/container-server-replicator.conf"
+    service_en: "{{ swift_dedicated_replication | bool }}"
   swift-container-server:
     group: swift_cont
     program_name: "swift-container-server"
@@ -346,6 +348,7 @@ swift_services:
     program_name: "swift-object-replicator-server"
     program_binary: "swift-object-server"
     program_config_options: "/etc/swift/object-server/object-server-replicator.conf"
+    service_en: "{{ swift_dedicated_replication | bool }}"
   swift-object-server:
     group: swift_obj
     program_name: "swift-object-server"

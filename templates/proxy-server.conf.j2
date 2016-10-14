@@ -71,10 +71,9 @@ sorting_method = {{ swift_sorting_method }}
 {% if 'tempauth' in swift_middleware_list %}
 [filter:tempauth]
 use = egg:swift#tempauth
-user_admin_admin = admin .admin .reseller_admin
-user_test_tester = testing .admin
-user_test2_tester2 = testing2 .admin
-user_test_tester3 = testing3
+{% for user in swift_tempauth_users %}
+{{ user }}
+{% endfor %}
 {% endif %}
 
 {% if 'authtoken' in swift_middleware_list %}

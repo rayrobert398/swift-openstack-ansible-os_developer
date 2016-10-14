@@ -9,6 +9,14 @@ Type=simple
 User={{ swift_system_user_name }}
 Group={{ swift_system_group_name }}
 
+{% if swift_pypy_enabled %}
+{%   if swift_pypy_gc_min is defined %}
+Environment=PYPY_GC_MIN={{ swift_pypy_gc_min }}
+{%   endif %}
+{%   if swift_pypy_gc_max is defined %}
+Environment=PYPY_GC_MAX={{ swift_pypy_gc_max }}
+{%   endif %}
+{% endif %}
 {% if item.value.program_override is defined %}
 ExecStart={{ item.value.program_override }} {{ item.value.program_config_options|default('') }}
 {% else %}

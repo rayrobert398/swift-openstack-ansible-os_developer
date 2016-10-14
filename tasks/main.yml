@@ -112,6 +112,8 @@
 
 - include: swift_sync_post_install.yml
   static: no
-  when: swift_do_sync | bool
+  when:
+   - swift_do_sync | bool
+   - not swift_do_setup | bool
   tags:
     - always

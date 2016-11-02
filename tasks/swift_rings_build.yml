@@ -48,6 +48,7 @@
     - "{{ swift_managed_regions | default([None]) }}"
   become: yes
   become_user: "{{ swift_system_user_name }}"
+  changed_when: false
   args:
     chdir: /etc/swift/ring_build_files/
 
@@ -58,5 +59,6 @@
     - "{{ swift_managed_regions | default([None]) }}"
   become: yes
   become_user: "{{ swift_system_user_name }}"
+  changed_when: false
   args:
     chdir: /etc/swift/ring_build_files/

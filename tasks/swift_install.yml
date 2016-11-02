@@ -52,7 +52,7 @@
 - name: Install requires pip packages
   pip:
     name: "{{ swift_requires_pip_packages | join(' ') }}"
-    state: latest
+    state: "{{ swift_pip_package_state }}"
     extra_args: "{{ pip_install_options_fact }}"
   register: install_packages
   until: install_packages|success
@@ -128,7 +128,7 @@
 - name: Install pip packages
   pip:
     name: "{{ swift_pip_packages | join(' ') }}"
-    state: latest
+    state: "{{ swift_pip_package_state }}"
     virtualenv: "{{ swift_bin | dirname }}"
     virtualenv_site_packages: "no"
     extra_args: "{{ pip_install_options_fact }}"

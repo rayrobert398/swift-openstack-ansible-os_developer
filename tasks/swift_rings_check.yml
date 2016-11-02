@@ -16,11 +16,13 @@
 - name: Get md5sum of local builder files
   shell: |
     cat /etc/swift/ring_build_files/*.builder 2>/dev/null | md5sum | cut -d " " -f1
+  changed_when: false
   register: md5sum
 
 - name: Get empty md5sum
   shell: |
     echo -n | md5sum | cut -d " " -f1
+  changed_when: false
   register: empty_md5sum
 
 # Fail if the remote hosts builder files is not empty AND

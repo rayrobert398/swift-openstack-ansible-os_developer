@@ -16,6 +16,7 @@
 - name: Get md5sum of local builder files
   shell: |
     cat /etc/swift/ring_build_files/*.builder 2>/dev/null | md5sum | cut -d " " -f1
+  changed_when: false
   register: md5sum
 
 # Fail if the remote hosts builder files don't match
@@ -38,6 +39,7 @@
 
 - name: "Ensure contents file matches ring after ring sync for account/container"
   command: "/etc/swift/scripts/swift_rings_check.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }} {% endif %}"
+  changed_when: false
   with_nested:
     - [ 'account', 'container' ]
     - "{{ swift_managed_regions | default([None]) }}"
@@ -48,6 +50,7 @@
 
 - name: "Ensure contents file matches ring after ring sync for storage policies"
   command: "/etc/swift/scripts/swift_rings_check.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }} {% endif %}"
+  changed_when: false
   with_nested:
     - "{{ swift.storage_policies }}"
     - "{{ swift_managed_regions | default([None]) }}"

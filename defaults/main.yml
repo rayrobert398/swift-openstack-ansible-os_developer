@@ -20,9 +20,10 @@ swift_gnocchi_enabled: False
 ## Verbosity Options
 debug: False
 
-# Set the package install state for distribution packages
+# Set the package install state for distribution and pip packages
 # Options are 'present' and 'latest'
 swift_package_state: "latest"
+swift_pip_package_state: "latest"
 
 swift_git_repo: https://git.openstack.org/openstack/swift
 swift_git_install_branch: master

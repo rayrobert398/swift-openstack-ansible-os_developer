@@ -26,3 +26,7 @@ swift_distro_packages:
   - python-dev
   - rsync
   - libssl-dev
+
+swift_syslog_user_name: syslog
+swift_syslog_group_name: syslog
+swift_rsync_service_name: rsync

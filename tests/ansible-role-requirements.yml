@@ -42,3 +42,7 @@
   src: https://git.openstack.org/openstack/openstack-ansible-os_keystone
   scm: git
   version: master
+- name: rsyslog_client
+  src: https://git.openstack.org/openstack/openstack-ansible-rsyslog_client
+  scm: git
+  version: master

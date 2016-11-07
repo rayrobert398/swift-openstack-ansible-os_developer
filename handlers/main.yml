@@ -37,10 +37,12 @@
   service:
     name: "rsyslog"
     state: "restarted"
+    enabled: "yes"
+    sleep: 2
 
 - name: Restart rsync service
   service:
-    name: "rsync"
+    name: "{{ swift_rsync_service_name }}"
     state: "restarted"
     enabled: "yes"
     sleep: 2

@@ -43,11 +43,13 @@
     mode: "0644"
   notify: "Restart rsync service"
 
-- name: "Enable rsync in defaults"
+# Red Hat/CentOS are enabled as part of the handler
+- name: "Enable rsync service in defaults (Debian)"
   lineinfile:
     dest: "/etc/default/rsync"
     line: "RSYNC_ENABLE=true"
     regexp: "^RSYNC_ENABLE*"
+  when: ansible_pkg_mgr =="apt"
   notify: "Restart rsync service"
 
 - name: "Setup swift-recon-cron cron job"

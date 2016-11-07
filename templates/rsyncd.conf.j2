@@ -4,6 +4,7 @@ uid = {{ swift_system_user_name }}
 gid = {{ swift_system_group_name }}
 log file = /var/log/rsyncd.log
 pid file = /var/run/rsyncd.pid
+reverse lookup = {{ swift_rsync_reverse_lookup | bool }}
 address = {{ swift_replication_address }}
 
 [account]

@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2016, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,26 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-galaxy_info:
-  author: rcbops
-  description: Installation and setup of swift
-  company: Rackspace
-  license: Apache2
-  min_ansible_version: 2.0
-  platforms:
-    - name: Ubuntu
-      versions:
-        - trusty
-  categories:
-    - cloud
-    - python
-    - swift
-    - development
-    - openstack
-dependencies:
-  - pip_install
-  - rsyslog_client
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
-  - openstack_openrc
+swift_distro_packages:
+  - curl
+  - gcc
+  - git
+  - liberasurecode
+  - liberasurecode-devel
+  - libffi-devel
+  - openssh-server
+  - python-devel
+  - rsync
+  - openssl-devel
+  - cronie
+  - cronie-anacron
+
+swift_syslog_user_name: root
+swift_syslog_group_name: root
+swift_rsync_service_name: rsyncd
+rdo_package: "https://rdoproject.org/repos/rdo-release.rpm"

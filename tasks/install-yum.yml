@@ -13,26 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-galaxy_info:
-  author: rcbops
-  description: Installation and setup of swift
-  company: Rackspace
-  license: Apache2
-  min_ansible_version: 2.0
-  platforms:
-    - name: Ubuntu
-      versions:
-        - trusty
-  categories:
-    - cloud
-    - python
-    - swift
-    - development
-    - openstack
-dependencies:
-  - pip_install
-  - rsyslog_client
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
-  - openstack_openrc
+- name: Install RDO package
+  yum:
+    pkg: "{{ rdo_package }}"
+    state: "present"
+  register: install_cloud_rdo_package
+  until: install_cloud_rdo_package | success
+  retries: 5
+  delay: 2
+
+- name: Install yum packages
+  yum:
+    pkg: "{{ item }}"
+    state: "{{ swift_package_state }}"
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  with_items: "{{ swift_distro_packages }}"

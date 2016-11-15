@@ -41,6 +41,14 @@
   tags:
     - always
 
+- name: Gather facts for storage_bridge
+  setup:
+    filter: "{{ swift_storage_bridge }}"
+  when:
+    - swift_storage_bridge is defined
+    - hostvars[inventory_hostname][swift_storage_bridge] is defined
+    - swift_storage_address is not defined
+
 - name: Swift storage address not found
   fail:
     msg: "{{ swift.storage_network }} not found on host, can't find storage address."
@@ -95,6 +103,14 @@
     - swift_replication_address is not defined
   tags:
     - always
+
+- name: Gather facts for storage_bridge
+  setup:
+    filter: "{{ swift_replication_bridge }}"
+  when:
+    - swift_replication_bridge is defined
+    - hostvars[inventory_hostname][swift_replication_bridge] is defined
+    - swift_replication_address is not defined
 
 - name: Swift replication address not found
   fail:

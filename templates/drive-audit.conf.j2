@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 [drive-audit]
-device_dir = /srv/node
+device_dir = {{ swift_vars.mount_point | default(swift.mount_point) }}
 log_facility = LOG_LOCAL0
 log_level = INFO
 minutes = 60

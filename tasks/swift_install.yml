@@ -101,7 +101,7 @@
 
 - name: Update virtualenv path
   command: >
-    virtualenv-tools --update-path=auto {{ swift_bin | dirname }}
+    virtualenv-tools --update-path=auto --reinitialize {{ swift_bin | dirname }}
   when:
     - not swift_pypy_enabled | bool
     - not swift_developer_mode | bool

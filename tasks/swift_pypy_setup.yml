@@ -55,7 +55,7 @@
 
 - name: Install pip packages into pypy venv
   pip:
-    name: "{{ swift_pip_packages | join(' ') }}"
+    name: "{{ swift_pip_packages }}"
     state: "{{ swift_pip_package_state }}"
     virtualenv: "{{ swift_bin | dirname }}"
     virtualenv_site_packages: "no"

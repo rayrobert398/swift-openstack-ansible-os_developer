@@ -1,5 +1,5 @@
 ---
-# Copyright 2015, Rackspace US, Inc.
+# Copyright 2016, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,23 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Setup the keys, host and containers
-- include: common/test-setup-host.yml
-
-# Install Memcached/Galera/Rabbitmq
-- include: common/test-install-infra.yml
-
-# Install Keystone
-- include: common/test-install-keystone.yml
-
-# Setup Swift-hosts
-- include: common/test-setup-swifthosts.yml
-
-# Install previous swift
-- include: test-install-previous-swift.yml
-  when:
-    - swift_upgrade is defined
-    - swift_upgrade | bool
-
-# Install Swift
-- include: common/test-install-swift.yml
+- name: Playbook for deploying swift
+  hosts: "{{ swift_groups | default('swift_all:swift_remote_all') }}"
+  user: root
+  gather_facts: true
+  roles:
+    - role: "os_previous_swift"
+  vars_files:
+    - common/previous/test-vars.yml

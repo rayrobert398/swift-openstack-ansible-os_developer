@@ -79,6 +79,10 @@ swift_middleware_list:
   - proxy-logging
   - proxy-server
 
+# Setup tempauth users list (user_<account>_<username> = <password> <roles>)
+swift_tempauth_users:
+  - "user_admin_admin = admin .admin .reseller_admin"
+
 ## Swift default ports
 swift_proxy_port: "8080"
 # You can change the object, container, account ports.
@@ -387,10 +391,15 @@ swift_pretend_min_part_hours_passed: False
 # Set this option to enable or disable the pypy interpreter for swift
 swift_pypy_enabled: false
 swift_pypy_archive:
-  url: "https://bitbucket.org/pypy/pypy/downloads/pypy2-v5.3.1-linux64.tar.bz2"
-  sha256: "6d0e8b14875b76b1e77f06a2ee3f1fb5015a645a951ba7a7586289344d4d9c22"
+  url: "https://bitbucket.org/pypy/pypy/downloads/pypy2-v5.6.0-linux64.tar.bz2"
+  sha256: "aad55328cb0673a60b2633dcc3c36cf452917ac906b577eb3aed5876a7666fca"
 swift_pypy_version: "{{ swift_pypy_archive['url'] | basename | replace('.tar.bz2', '') }}"
 swift_pypy_env: "/opt/pypy-runtime/{{ swift_pypy_version }}/bin/pypy"
+# Set the Garbage Collection (GC) options for pypy if you would like to tune these
+# More info on pypy garbage collection can be found here:
+# http://doc.pypy.org/en/latest/gc_info.html
+#swift_pypy_gc_min: "15M"
+#swift_pypy_gc_max: "1GB"
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the

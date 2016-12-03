@@ -10,6 +10,14 @@ respawn limit 10 5
 
 # Set the RUNBIN environment variable
 env RUNBIN="{{ swift_bin }}/{{ item.value.program_binary | default(item.value.program_name) }}"
+{% if swift_pypy_enabled %}
+{%   if swift_pypy_gc_min is defined %}
+env PYPY_GC_MIN={{ swift_pypy_gc_min }}
+{%   endif %}
+{%   if swift_pypy_gc_max is defined %}
+env PYPY_GC_MAX={{ swift_pypy_gc_max }}
+{%   endif %}
+{% endif %}
 
 # Change directory to service users home
 chdir "{{ swift_system_home_folder }}"

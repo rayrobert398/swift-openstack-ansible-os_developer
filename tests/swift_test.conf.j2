@@ -1,17 +1,20 @@
 [func_test]
+{% if groups['keystone_all'] is not defined %}
 # sample config for Swift with tempauth
-#auth_host = 10.100.100.2
-#auth_port = 5000
-#auth_ssl = no
-#auth_prefix = /auth/
+auth_host = {{ test_swift_proxy_host }}
+auth_port = 8080
+auth_ssl = no
+auth_prefix = /auth/
+{% else %}
 ## sample config for Swift with Keystone v2 API
 # For keystone v2 change auth_version to 2 and auth_prefix to /v2.0/
 # And "allow_account_management" should not be set "true"
 auth_version = 3
-auth_host = {{ hostvars[groups['keystone_all'][0]]['ansible_host'] }}
+auth_host = {{ test_keystone_host }}
 auth_port = 5000
 auth_ssl = no
 auth_prefix = /v3/
+{% endif %}
 
 # Primary functional test account (needs admin access to the account)
 account = test1

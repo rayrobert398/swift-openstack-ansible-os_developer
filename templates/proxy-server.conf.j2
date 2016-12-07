@@ -48,6 +48,9 @@ log_statsd_metric_prefix = {{ swift.statsd_metric_prefix | default(inventory_hos
 [pipeline:main]
 pipeline = {{ swift_middleware_list | join(' ') }}
 
+[filter:copy]
+use = egg:swift#copy
+
 [app:proxy-server]
 use = egg:swift#proxy
 log_facility = LOG_LOCAL1

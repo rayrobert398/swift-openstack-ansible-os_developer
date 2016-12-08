@@ -212,7 +212,7 @@ swift_rabbitmq_telemetry_use_ssl: "False"
 
 # This var is calculated by the play itself, and should not need to be set
 # It is defaulted for the benefit of the swift_proxy host which needs it
-# for the swift-init-upstart.j2 template file.
+# for the swift-init-systemd.j2 template file.
 swift_dedicated_replication: False
 
 swift_service_in_ldap: false

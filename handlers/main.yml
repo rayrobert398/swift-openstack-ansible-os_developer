@@ -18,11 +18,6 @@
   notify:
     - Restart swift services
 
-- name: Reload upstart init scripts
-  command: initctl reload-configuration
-  notify:
-    - Restart swift services
-
 - name: Restart swift services
   service:
     name: "{{ item.value.program_name }}"

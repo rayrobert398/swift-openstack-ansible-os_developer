@@ -17,7 +17,6 @@
   service:
     name: "{{ item.value.program_name }}"
     state: "started"
-    pattern: "{{ item.value.program_name }}"
   with_dict: "{{ swift_services }}"
   when:
     - inventory_hostname in groups[item.value.group]

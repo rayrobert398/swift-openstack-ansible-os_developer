@@ -58,5 +58,5 @@ the ``swift`` section.
 
 To view the configuration files, including information about which
 variables are required and which are optional, see `Appendix A, *OSA
-configuration files* <app-configfiles.html>`_.
+Example test environment configuration* <http://docs.openstack.org/project-deploy-guide/openstack-ansible/draft/app-config-test.html>`_.
 

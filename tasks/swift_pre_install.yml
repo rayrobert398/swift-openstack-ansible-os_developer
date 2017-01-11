@@ -48,7 +48,7 @@
     group: "{{ item.group|default(swift_system_group_name) }}"
     mode: "{{ item.mode|default('0755') }}"
   with_items:
-    - { path: "/openstack", owner: "root", group: "root" }
+    - { path: "/openstack/venvs", owner: "root", group: "root" }
     - { path: "/etc/swift" }
     - { path: "/etc/swift/account-server" }
     - { path: "/etc/swift/backups" }

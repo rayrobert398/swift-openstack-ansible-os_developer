@@ -26,6 +26,7 @@ swift_distro_packages:
   - openssl-devel
   - cronie
   - cronie-anacron
+  - which
 
 swift_rsync_service_name: rsyncd
 rdo_package: "https://rdoproject.org/repos/rdo-release.rpm"

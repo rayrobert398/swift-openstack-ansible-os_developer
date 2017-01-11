@@ -114,7 +114,7 @@
 
 - name: Swift replication address not found
   fail:
-    msg: "{{ swift.replication_network }} not found on host, can't find swift_replican_address"
+    msg: "{{ swift.replication_network }} not found on host, can't find swift_replication_address"
   when:
     - swift.replication_network is defined
     - swift_replication_bridge is defined

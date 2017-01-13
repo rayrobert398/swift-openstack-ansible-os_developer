@@ -43,7 +43,6 @@
   with_dict: "{{ swift_services }}"
   when: inventory_hostname in groups[item.value.group]
 
-
 - name: Create tmpfiles.d entry
   template:
     src: "swift-systemd-tmpfiles.j2"
@@ -65,3 +64,4 @@
   when: inventory_hostname in groups[item.value.group]
   notify:
     - Reload systemd daemon
+

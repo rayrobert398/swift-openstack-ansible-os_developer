@@ -71,7 +71,6 @@
     - inventory_hostname in groups['swift_hosts']
     - swift_do_setup | bool
   tags:
-    - swift-install
     - swift-config
 
 - include: swift_proxy_hosts.yml
@@ -80,11 +79,10 @@
     - swift_do_setup | bool
   tags:
     - swift-config
-    - swift-install
 
 - include: swift_init_common.yml
   tags:
-    - swift-install
+    - swift-config
 
 - include: swift_service_setup.yml
   when:
@@ -92,7 +90,7 @@
     - '"keystoneauth" in swift_middleware_list'
     - swift_do_setup | bool
   tags:
-    - swift-install
+    - swift-config
 
 - include: swift_key_setup.yml
   static: no
@@ -104,8 +102,8 @@
   static: no
   when: swift_do_sync | bool
   tags:
-    - swift-install
     - swift-config
+    - swift-rings
 
 - name: Flush handlers
   meta: flush_handlers
@@ -116,4 +114,4 @@
    - swift_do_sync | bool
    - not swift_do_setup | bool
   tags:
-    - always
+    - swift-config

@@ -35,6 +35,9 @@ swift_developer_constraints:
 swift_venv_tag: untagged
 swift_bin: "/openstack/venvs/swift-{{ swift_venv_tag }}/bin"
 
+# venv_download, even when true, will use the fallback method of building the
+# venv from scratch if the venv download fails.
+swift_venv_download: "{{ not swift_developer_mode | bool and not swift_pypy_enabled | bool }}"
 swift_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/swift.tgz
 
 # Set the full path to the swift recon cron

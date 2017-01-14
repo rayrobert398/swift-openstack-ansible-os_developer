@@ -69,33 +69,27 @@
     dest: "/var/cache/{{ swift_venv_download_url | basename }}"
     checksum: "sha1:{{ lookup('url', swift_venv_download_url | replace('tgz', 'checksum')) }}"
   register: swift_get_venv
-  when:
-    - not swift_pypy_enabled | bool
-    - not swift_developer_mode | bool
+  when: swift_venv_download | bool
 
 - name: Remove existing venv
   file:
     path: "{{ swift_bin | dirname }}"
     state: absent
-  when:
-    - not swift_pypy_enabled | bool
-    - swift_get_venv | changed
+  when: swift_get_venv | changed
 
 - name: Create swift venv dir
   file:
     path: "{{ swift_bin | dirname }}"
     state: directory
   register: swift_venv_dir
+  when: swift_get_venv | changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ swift_venv_download_url | basename }}"
     dest: "{{ swift_bin | dirname }}"
     copy: "no"
-  when:
-    - not swift_pypy_enabled | bool
-    - not swift_developer_mode | bool
-    - swift_get_venv | changed or swift_venv_dir | changed
+  when: swift_get_venv | changed
   notify:
     - Restart swift services
 
@@ -113,9 +107,7 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  when:
-    - not swift_pypy_enabled | bool
-    - swift_developer_mode | bool
+  when: swift_get_venv | failed or swift_get_venv | skipped
   notify:
     - Restart swift services
 
@@ -125,17 +117,12 @@
     state: "absent"
   when:
     - ansible_pkg_mgr == 'yum'
-    - not swift_pypy_enabled | bool
-    - not swift_developer_mode | bool
-    - swift_get_venv | changed or swift_venv_dir | changed
+    - swift_get_venv | changed
 
 - name: Update virtualenv path
   command: >
     virtualenv-tools --update-path=auto --reinitialize {{ swift_bin | dirname }}
-  when:
-    - not swift_pypy_enabled | bool
-    - not swift_developer_mode | bool
-    - swift_get_venv | changed or swift_venv_dir | changed
+  when: swift_get_venv | changed
 
 - include: swift_pypy_setup.yml
   static: no

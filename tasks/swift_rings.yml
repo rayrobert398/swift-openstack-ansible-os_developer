@@ -13,6 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- include: swift_rings_selinux.yml
+  when:
+    - ansible_selinux.status is defined
+    - ansible_selinux.status == "enabled"
+
 - include: swift_rings_md5sum.yml
 
 - include: swift_rings_check.yml

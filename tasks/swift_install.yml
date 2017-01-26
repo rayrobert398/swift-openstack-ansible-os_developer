@@ -81,6 +81,7 @@
   file:
     path: "{{ swift_bin | dirname }}"
     state: directory
+    mode: "0755"
   register: swift_venv_dir
   when: swift_get_venv | changed
 

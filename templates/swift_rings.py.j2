@@ -15,14 +15,16 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os.path import exists
+from os.path import exists, dirname, join, basename
 
-from swift.cli.ringbuilder import main as rb_main
+from swift.common.ring import RingBuilder
+from swift.common.ring.utils import parse_builder_ring_filename_args
 
 import json
-import pickle
 import sys
-import threading
+import os
+import time
+from datetime import timedelta
 
 
 USAGE = "usage: %prog -f <swift_ring.contents> -r <managed_region>"
@@ -36,54 +38,8 @@ class RingValidationError(Exception):
     pass
 
 
-class ThreadWithErr(threading.Thread):
-    def run(self):
-        try:
-            threading.Thread.run(self)
-        except BaseException as err:
-            self.err = err
-        else:
-            self.err = None
-
-
-def create_buildfile(build_file, part_power, repl, min_part_hours,
-                     update=False, data=None, validate=False):
-    if update:
-        # build file exists, so lets just update the existing build file
-        if not data:
-            data = get_build_file_data(build_file)
-            if data is None:
-                data = {}
-
-        if repl != data.get('replicas') and not validate:
-            run_and_wait(rb_main, ["swift-ring-builder", build_file,
-                                   "set_replicas", repl])
-        if min_part_hours != data.get('min_part_hours') and not validate:
-            run_and_wait(rb_main, ["swift-ring-builder", build_file,
-                                   "set_min_part_hours", min_part_hours])
-        if part_power != data.get('part_power'):
-            raise RingValidationError('Part power cannot be changed! '
-                                      'you must rebuild the ring if you need '
-                                      'to change it.\nRing part power: %s '
-                                      'Inventory part power: %s'
-                                      % (data.get('part_power'), part_power))
-
-    elif not validate:
-        run_and_wait(rb_main, ["swift-ring-builder", build_file, "create",
-                     part_power, repl, min_part_hours])
-
-
-def change_host_weight(build_file, host_search_str, weight):
-    run_and_wait(rb_main, ["swift-ring-builder", build_file, "set_weight",
-                 host_search_str, str(weight)])
-
-
-def remove_host_from_ring(build_file, host):
-    run_and_wait(rb_main, ["swift-ring-builder", build_file, "remove",
-                 host])
-
-
-def update_host_in_ring(build_file, new_host, old_host, validate=False):
+def update_host_in_ring(ringbuilder, new_host, old_host, old_host_idx,
+                        validate=False):
     if new_host.get('zone', 0) != old_host['zone']:
         devstr = DEVICE_KEY % new_host
         raise RingValidationError('Cannot update zone on %s, this can only be '
@@ -102,111 +58,115 @@ def update_host_in_ring(build_file, new_host, old_host, validate=False):
 
         if new_host_str != old_host_str:
             if not validate:
-                run_and_wait(rb_main, ["swift-ring-builder", build_file,
-                                       "set_info", old_host_str,
-                                       new_host_str])
+                ringbuilder.devs[old_host_idx].update(new_host)
+                ringbuilder.devs_changed = True
+                ringbuilder.version += 1
     except Exception as ex:
         raise RingValidationError(ex)
 
     if new_weight != old_weight and not validate:
-        change_host_weight(build_file, FULL_HOST_KEY % new_host, new_weight)
+        ringbuilder.set_dev_weight(ringbuilder.devs[old_host_idx]['id'],
+                                   new_weight)
 
 
-def add_host_to_ring(build_file, host, validate=False):
-    host_str = ""
+def add_host_to_ring(ringbuilder, host, validate=False):
+    new_host = {'region': 1, 'zone': 0, 'meta': ''}
+    new_host.update(host)
     try:
-        if host.get('region') is not None:
-            host_str += 'r%(region)d' % host
-        host_str += "z%(zone)d-" % host
-        host_str += FULL_HOST_KEY % host
-        weight = host.get('weight')
+        if validate:
+            ringbuilder.add_dev(new_host)
     except Exception as ex:
         raise RingValidationError(ex)
-    if not validate:
-        run_and_wait(rb_main, ["swift-ring-builder", build_file, 'add',
-                               host_str, str(weight)])
-
-
-def run_and_wait(func, *args):
-    t = ThreadWithErr(target=func, args=args)
-    t.start()
-    t.join()
-    if t.err and t.err.code > 0:
-        sys.exit(t.err.code)
-
-
-def get_build_file_data(build_file):
-    build_file_data = None
-    if exists(build_file):
-        try:
-            with open(build_file) as bf_stream:
-                build_file_data = pickle.load(bf_stream)
-        except Exception as ex:
-            print("Error: failed to load build file '%s': %s" % (build_file,
-                                                                 ex))
-            build_file_data = None
-    return build_file_data
 
 
 def build_ring(build_name, repl, min_part_hours, part_power, hosts,
                region=None, validate=False, reset_mph_clock=False):
     # Create the build file
     build_file = "%s.builder" % build_name
-    build_file_data = get_build_file_data(build_file)
+    if exists(build_file):
+        ringbuilder = RingBuilder.load(build_file)
+    else:
+        ringbuilder = RingBuilder(part_power, repl, min_part_hours)
 
-    update = build_file_data is not None
-    create_buildfile(
-        build_file,
-        part_power,
-        repl,
-        min_part_hours,
-        update,
-        data=build_file_data,
-        validate=validate
-    )
+    # run some checks
+    if repl != ringbuilder.replicas and not validate:
+        ringbuilder.set_replicas(repl)
+
+    if min_part_hours != ringbuilder.min_part_hours and not validate:
+        ringbuilder.change_min_part_hours(min_part_hours)
+
+    if part_power != ringbuilder.part_power:
+        raise RingValidationError(
+            'Part power cannot be changed! you must rebuild the ring if you '
+            'need to change it.\nRing part power: %s Inventory part power: %s'
+            % (ringbuilder.part_power, part_power))
 
     old_hosts = {}
-    if update:
-        for i, dev in enumerate(build_file_data['devs']):
-            if dev is not None:
-                if region is None or int(region) == int(dev['region']):
-                    old_hosts[DEVICE_KEY % dev] = i
+    for i, dev in enumerate(ringbuilder.devs):
+        if dev is not None:
+            if region is None or int(region) == int(dev['region']):
+                old_hosts[DEVICE_KEY % dev] = i
     for host in hosts:
         host_key = DEVICE_KEY % host
         if region is None or int(region) == int(host['region']):
             if host_key in old_hosts:
-                old_host = build_file_data['devs'][old_hosts[host_key]]
-                update_host_in_ring(build_file, host, old_host,
-                                    validate=validate)
+                old_host = ringbuilder.devs[old_hosts[host_key]]
+                update_host_in_ring(ringbuilder, host, old_host,
+                                    old_hosts[host_key], validate=validate)
                 old_hosts.pop(host_key)
             else:
-                add_host_to_ring(build_file, host, validate=validate)
+                add_host_to_ring(ringbuilder, host, validate=validate)
 
     if old_hosts and not validate:
         # There are still old hosts, these hosts must've been removed
-        for host in old_hosts:
-            remove_host_from_ring(build_file, host)
+        try:
+            for host, idx in old_hosts.items():
+                ringbuilder.remove_dev(ringbuilder.devs[idx]['id'])
+        except Exception as ex:
+            raise RingValidationError(ex)
+
+    build_file, ring_file = parse_builder_ring_filename_args(('', build_file))
+    # serialise to disk before we think about writing the ring
+    backup_folder = join(dirname(build_file), 'backups')
+    try:
+        os.mkdir(backup_folder)
+    except OSError:
+        if not os.path.isdir(backup_folder):
+            raise
+    ts = time.time()
+
+    ringbuilder.save(build_file)
+    ringbuilder.save(join(backup_folder, '%d.' % ts + basename(build_file)))
 
     # Rebalance ring
     if not validate:
         if not hosts:
-            run_and_wait(
-                rb_main, ["swift-ring-builder", build_file, "write_ring"]
-            )
+            ringdata = ringbuilder.get_ring()
+            ringdata.save(join(backup_folder, '%d.' % ts +
+                               basename(ring_file)))
+            ringdata.save(ring_file)
         else:
             if reset_mph_clock:
-                run_and_wait(
-                    rb_main, ["swift-ring-builder", build_file,
-                              "pretend_min_part_hours_passed"]
-                )
-            run_and_wait(
-                rb_main, ["swift-ring-builder", build_file, "rebalance"]
-            )
-            # In case no changes that require a rebalance have happened
-            # We may still need to write the ring for device changes.
-            run_and_wait(
-                rb_main, ["swift-ring-builder", build_file, "write_ring"]
-            )
+                ringbuilder.pretend_min_part_hours_passed()
+            if ringbuilder.min_part_seconds_left > 0:
+                raise RingValidationError(
+                    'The time between rebalances must be at least '
+                    'min_part_hours: %s hours (%s remaining)' %
+                    (ringbuilder.min_part_hours,
+                     timedelta(seconds=ringbuilder.min_part_seconds_left)))
+                exit(2)
+            parts, balance, removed_devs = ringbuilder.rebalance()
+            try:
+                ringbuilder.validate()
+            except Exception as ex:
+                raise RingValidationError(ex)
+            ringbuilder.save(join(backup_folder, '%d.' % ts +
+                                  basename(build_file)))
+            ringbuilder.save(build_file)
+            ringdata = ringbuilder.get_ring()
+            ringdata.save(join(backup_folder, '%d.' % ts +
+                               basename(ring_file)))
+            ringdata.save(ring_file)
 
 
 def main(setup, region, reset_mph_clock):

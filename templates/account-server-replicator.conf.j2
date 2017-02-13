@@ -11,7 +11,15 @@ bind_port = {{ swift_account_port }}
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
 workers = {{ swift_account_server_replicator_workers | default(api_threads) }}
 log_facility = LOG_LOCAL2
-{% include "statsd.j2" %}
+
+{% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
+{% if _statsd_host | bool %}
+log_statsd_host = {{ _statsd_host }}
+log_statsd_port = {{ swift_vars.statsd_port | default(swift.statsd_port | default(statsd_port)) }}
+log_statsd_default_sample_rate = {{ swift_vars.statsd_default_sample_rate | default(swift.statsd_default_sample_rate | default(statsd_default_sample_rate)) }}
+log_statsd_sample_rate_factor = {{ swift_vars.statsd_sample_rate_factor | default(swift.statsd_sample_rate_factor | default(statsd_sample_rate_factor))}}
+log_statsd_metric_prefix = {{ swift_vars.statsd_metric_prefix | default(swift.statsd_metric_prefix | default(inventory_hostname)) }}
+{% endif %}
 
 [pipeline:main]
 pipeline = account-server

@@ -36,6 +36,16 @@ class RingValidationError(Exception):
     pass
 
 
+class ThreadWithErr(threading.Thread):
+    def run(self):
+        try:
+            threading.Thread.run(self)
+        except BaseException as err:
+            self.err = err
+        else:
+            self.err = None
+
+
 def create_buildfile(build_file, part_power, repl, min_part_hours,
                      update=False, data=None, validate=False):
     if update:
@@ -118,9 +128,11 @@ def add_host_to_ring(build_file, host, validate=False):
 
 
 def run_and_wait(func, *args):
-    t = threading.Thread(target=func, args=args)
+    t = ThreadWithErr(target=func, args=args)
     t.start()
-    return t.join()
+    t.join()
+    if t.err and t.err.code > 0:
+        sys.exit(t.err.code)
 
 
 def get_build_file_data(build_file):

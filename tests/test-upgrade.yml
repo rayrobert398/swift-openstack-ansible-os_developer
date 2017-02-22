@@ -27,6 +27,3 @@
 
 # Install previous swift
 - include: test-install-previous-swift.yml
-
-# Install Swift
-- include: common/test-install-swift.yml

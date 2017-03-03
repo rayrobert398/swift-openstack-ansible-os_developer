@@ -178,6 +178,13 @@ swift_rabbitmq_telemetry_servers: "127.0.0.1"
 swift_rabbitmq_telemetry_use_ssl: "False"
 
 ## General Swift configuration
+# We are not capping the default value for these swift variables which define
+# the number of worker threads for each of the swift services (except the swift
+# proxy workers when proxy is in a container) because of the performace impact
+# that may be seen due to capping worker threads for swift services.
+# We would like to calculate the default value using vCPUs for good performance
+# of swift services.
+
 # If ``swift_account_server_replicator_workers`` is unset the system will use half the number
 # of available VCPUS to compute the number of api workers to use.
 # swift_account_server_replicator_workers: 16
@@ -203,8 +210,13 @@ swift_rabbitmq_telemetry_use_ssl: "False"
 # swift_object_server_workers: 16
 
 # If ``swift_proxy_server_workers`` is unset the system will use half the number
-# of available VCPUS to compute the number of api workers to use.
-# swift_proxy_server_workers: 16
+# of available VCPUS to compute the number of api workers to use. Capping this
+# value at 16 if the swift proxy is in a container and user did not define
+# this variable.
+swift_proxy_server_workers_max: 16
+swift_proxy_server_workers_not_capped: "{{ [ansible_processor_vcpus|default(2) // 2, 1] | max }}"
+swift_proxy_server_workers_capped: "{{ [swift_proxy_server_workers_max, swift_proxy_server_workers_not_capped|int] | min }}"
+swift_proxy_server_workers: "{{ (inventory_hostname == physical_host) | ternary(swift_proxy_server_workers_not_capped, swift_proxy_server_workers_capped) }}"
 
 # These are the storage addresses used to define the networks for swift storage and replication
 # These are calculated by the tasks based on the "storage_network" and "replication_network" values

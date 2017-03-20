@@ -21,6 +21,8 @@ bridges:
   - name: "br-repl"
     ip_addr: "10.1.3.1"
 
+swift_pretend_min_part_hours_passed: False
+
 swift:
   storage_network: "{{ test_swift_storage_network | default('eth2') }}"
   replication_network: "{{ test_swift_repl_network | default('eth3') }}"

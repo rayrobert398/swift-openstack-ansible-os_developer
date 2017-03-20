@@ -48,9 +48,11 @@
   with_nested:
     - [ 'account', 'container' ]
     - "{{ swift_managed_regions | default([None]) }}"
+  register: swift_rings_create
   become: yes
   become_user: "{{ swift_system_user_name }}"
-  changed_when: false
+  changed_when: "{{ swift_rings_create.rc not in [1, 2, 3] }}"
+  failed_when: "{{ swift_rings_create.rc in [1, 2] }}"
   args:
     chdir: /etc/swift/ring_build_files/
 
@@ -59,8 +61,10 @@
   with_nested:
     - "{{ swift.storage_policies }}"
     - "{{ swift_managed_regions | default([None]) }}"
+  register: swift_object_rings_create
   become: yes
   become_user: "{{ swift_system_user_name }}"
-  changed_when: false
+  changed_when: "{{ swift_object_rings_create.rc not in [1, 2, 3] }}"
+  failed_when: "{{ swift_object_rings_create.rc in [1, 2] }}"
   args:
     chdir: /etc/swift/ring_build_files/

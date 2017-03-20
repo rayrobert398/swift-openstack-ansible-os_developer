@@ -140,11 +140,12 @@ def build_ring(build_name, repl, min_part_hours, part_power, hosts,
 
     # Rebalance ring
     if not validate:
-        if not hosts:
+        if not hosts or not ringbuilder.devs_changed:
             ringdata = ringbuilder.get_ring()
             ringdata.save(join(backup_folder, '%d.' % ts +
                                basename(ring_file)))
             ringdata.save(ring_file)
+            exit(3)
         else:
             if reset_mph_clock:
                 ringbuilder.pretend_min_part_hours_passed()

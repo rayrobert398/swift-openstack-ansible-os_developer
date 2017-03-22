@@ -139,7 +139,8 @@ swift_soft_open_file_limits: 4096
 swift_max_file_limits: "{{ swift_hard_open_file_limits * 24 }}"
 
 ## Keystone authentication middleware
-swift_keystone_auth_plugin: "password"
+swift_keystone_auth_plugin: "{{ swift_keystone_auth_type }}"
+swift_keystone_auth_type: "password"
 
 swift_dispersion_user: dispersion
 swift_dispersion_user_domain_name: "Default"

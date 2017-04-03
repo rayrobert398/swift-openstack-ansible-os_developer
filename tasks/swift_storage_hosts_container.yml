@@ -31,6 +31,10 @@
       dest: "/etc/swift/container-server/container-reconciler.conf"
       config_overrides: "{{ swift_container_reconciler_conf_overrides }}"
       config_type: "ini"
+    - src: "internal-client.conf.j2"
+      dest: "/etc/swift/container-server/internal-client.conf"
+      config_overrides: "{{ swift_internal_client_conf_overrides }}"
+      config_type: "ini"
   notify: Restart swift services
 
 # If we've specified a container-sync realm use container-sync-realms.conf

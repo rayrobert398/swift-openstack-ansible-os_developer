@@ -22,8 +22,5 @@
 # Install Keystone
 - include: common/test-install-keystone.yml
 
-# Setup Swift-hosts
-- include: common/test-setup-swifthosts.yml
-
 # Install Swift
 - include: common/test-install-swift.yml

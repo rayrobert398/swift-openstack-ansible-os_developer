@@ -20,8 +20,7 @@
     owner: "{{ swift_system_user_name }}"
     group: "{{ swift_system_group_name }}"
     mode: "02755"
-  with_dict: "{{ swift_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  with_dict: "{{ filtered_swift_services }}"
 
 - name: Create TEMP lock dir
   file:
@@ -30,8 +29,7 @@
     owner: "{{ swift_system_user_name }}"
     group: "{{ swift_system_group_name }}"
     mode: "02755"
-  with_dict: "{{ swift_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  with_dict: "{{ filtered_swift_services }}"
 
 # TODO(mgariepy):
 # Remove this in Pike as it only needed to handle upgrades
@@ -40,8 +38,7 @@
   file:
     path: "/etc/tmpfiles.d/{{ item.value.program_name }}.conf"
     state: absent
-  with_dict: "{{ swift_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  with_dict: "{{ filtered_swift_services }}"
 
 - name: Create tmpfiles.d entry
   template:
@@ -50,8 +47,7 @@
     mode: "0644"
     owner: "root"
     group: "root"
-  with_dict: "{{ swift_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  with_dict: "{{ filtered_swift_services }}"
 
 - name: Place the systemd init script
   config_template:
@@ -62,8 +58,7 @@
     group: "root"
     config_overrides: "{{ item.value.init_config_overrides }}"
     config_type: "ini"
-  with_dict: "{{ swift_services }}"
-  when: inventory_hostname in groups[item.value.group]
+  with_dict: "{{ filtered_swift_services }}"
   notify:
     - Reload systemd daemon
 

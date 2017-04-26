@@ -236,6 +236,8 @@ swift_service_in_ldap: false
 
 # Basic swift configuration for the cluster
 swift: {}
+swift_vars: {}
+swift_proxy_vars: {}
 
 # Example basic swift configuration for the cluster
 # swift:

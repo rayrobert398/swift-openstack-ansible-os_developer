@@ -31,22 +31,6 @@
   tags:
     - swift-config
 
-# We need swift_vars to exist for the "swift_vars.* is defined check" to work
-- name: "Set swift_vars if undefined"
-  set_fact:
-    swift_vars: "{}"
-  when: swift_vars is not defined
-  tags:
-    - always
-
-# We need swift_proxy_vars to exist for the "swift_proxy_vars.* is defined check" to work
-- name: "Set swift_proxy_vars if undefined"
-  set_fact:
-    swift_proxy_vars: "{}"
-  when: swift_proxy_vars is not defined
-  tags:
-    - always
-
 - include: swift_pre_install.yml
   when:
     - swift_do_setup | bool

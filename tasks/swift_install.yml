@@ -119,3 +119,10 @@
 - include: swift_pypy_setup.yml
   static: no
   when: swift_pypy_enabled | bool
+
+- name: Record the venv tag deployed
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: swift
+    option: venv_tag
+    value: "{{ swift_venv_tag }}"

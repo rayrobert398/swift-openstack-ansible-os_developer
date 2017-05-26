@@ -104,6 +104,9 @@
     pip:
       requirements: "{{ item }}"
       virtualenv: "{{ swift_venv_bin | dirname }}"
+      extra_args: >-
+        {{ swift_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
+        {{ pip_install_options | default('') }}
     with_items:
       - "/opt/swift/test-requirements.txt"
   - name: Setup test.conf for testing

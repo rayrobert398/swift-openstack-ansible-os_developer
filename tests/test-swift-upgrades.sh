@@ -86,7 +86,7 @@ export ANSIBLE_LOG_PATH="${ANSIBLE_LOG_DIR}/ansible-execute-swift-install.log"
 execute_ansible_playbook
 
 # Prepare environment for the upgrade of Swift
-export TEST_PLAYBOOK="${COMMON_TESTS_PATH}/test-install-swift.yml"
+export TEST_PLAYBOOK="${WORKING_DIR}/tests/benchmark-upgrade.yml"
 export ANSIBLE_LOG_PATH="${ANSIBLE_LOG_DIR}/ansible-execute-swift-upgrade.log"
 
 # Excute the upgrade of Neutron

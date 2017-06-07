@@ -301,11 +301,11 @@ swift_requires_pip_packages:
 
 swift_pip_packages:
   - ceilometermiddleware
+  - cryptography
   - dnspython
   - ecdsa
   - keystonemiddleware
   - pyeclib
-  - pycrypto
   - python-cinderclient
   - python-keystoneclient
   - python-memcached

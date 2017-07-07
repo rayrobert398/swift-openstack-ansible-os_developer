@@ -27,60 +27,69 @@
 # Check the swift_hash_path_* variables haven't changed
 - include: swift_check_hashes.yml
   static: no
-  when: not swift_force_change_hashes | bool
+  when:
+    - "not swift_force_change_hashes | bool"
   tags:
     - swift-config
 
 - include: swift_pre_install.yml
+  static: no
   when:
-    - swift_do_setup | bool
-    - inventory_hostname in groups['swift_all']
+    - "swift_do_setup | bool"
+    - "'swift_all' in group_names"
   tags:
     - swift-install
 
 - include: swift_install.yml
+  static: no
   when:
-    - swift_do_setup | bool
-    - inventory_hostname in groups['swift_all']
+    - "swift_do_setup | bool"
+    - "'swift_all' in group_names"
   tags:
     - swift-install
 
 - include: swift_post_install.yml
+  static: no
   when:
-    - swift_do_setup | bool
-    - inventory_hostname in groups['swift_all']
+    - "swift_do_setup | bool"
+    - "'swift_all' in group_names"
   tags:
     - swift-config
 
 - include: swift_calculate_addresses.yml
+  static: no
   when:
-    - inventory_hostname in groups['swift_hosts']
+    - "'swift_hosts' in group_names"
   tags:
     - always
 
 - include: swift_storage_hosts.yml
+  static: no
   when:
-    - inventory_hostname in groups['swift_hosts']
-    - swift_do_setup | bool
+    - "swift_do_setup | bool"
+    - "'swift_hosts' in group_names"
   tags:
     - swift-config
 
 - include: swift_proxy_hosts.yml
+  static: no
   when:
-    - inventory_hostname in groups['swift_proxy']
-    - swift_do_setup | bool
+    - "swift_do_setup | bool"
+    - "'swift_proxy' in group_names"
   tags:
     - swift-config
 
-- include: swift_init_common.yml
+- include: "swift_init_{{ ansible_service_mgr }}.yml"
+  static: no
   tags:
     - swift-config
 
 - include: swift_service_setup.yml
+  static: no
   when:
-    - inventory_hostname == groups['swift_all'][0]
+    - "swift_do_setup | bool"
     - '"keystoneauth" in swift_middleware_list'
-    - swift_do_setup | bool
+    - "inventory_hostname == ((groups['swift_all'] | intersect(ansible_play_hosts)) | list)[0]"
   tags:
     - swift-config
 
@@ -100,27 +109,19 @@
 - include: swift_key_setup.yml
   static: no
   when:
-    - swift_do_sync | bool
-    - need_sync is defined
+    - "swift_do_sync | bool"
+    - "need_sync is defined"
   tags:
     - swift-config
 
 - include: swift_rings.yml
   static: no
   when:
-    - swift_do_sync | bool
-    - need_sync is defined
+    - "swift_do_sync | bool"
+    - "need_sync is defined"
   tags:
     - swift-config
     - swift-rings
 
 - name: Flush handlers
   meta: flush_handlers
-
-- include: swift_sync_post_install.yml
-  static: no
-  when:
-   - swift_do_sync | bool
-   - not swift_do_setup | bool
-  tags:
-    - swift-config

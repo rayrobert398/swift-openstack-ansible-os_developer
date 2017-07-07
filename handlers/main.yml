@@ -13,19 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Reload systemd daemon
-  command: "systemctl daemon-reload"
-  notify:
-    - Restart swift services
-
 - name: Restart swift services
   service:
     name: "{{ item.value.program_name }}"
+    enabled: yes
     state: "restarted"
-  with_dict: "{{ swift_services }}"
-  when:
-    - inventory_hostname in groups[item.value.group]
-    - "{{ item.value.service_en | default(true) }}"
+    daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
+  with_dict: "{{ filtered_swift_services }}"
 
 - name: Restart rsyslog
   service:

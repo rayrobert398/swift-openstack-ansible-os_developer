@@ -60,5 +60,5 @@
     config_type: "ini"
   with_dict: "{{ filtered_swift_services }}"
   notify:
-    - Reload systemd daemon
+    - Restart swift services
 

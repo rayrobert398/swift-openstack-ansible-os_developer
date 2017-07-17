@@ -44,5 +44,5 @@ cluster:
    storage policy.
 
 For more information about storage policies, see: `Storage
-Policies <http://docs.openstack.org/developer/swift/overview_policies.html>`_
+Policies <https://docs.openstack.org/swift/latest/overview_policies.html>`_
 

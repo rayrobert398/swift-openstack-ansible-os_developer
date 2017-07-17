@@ -152,7 +152,7 @@ file**
       These ``statsd`` related options are more complex and are
       used to tune how many samples are sent to ``statsd``. Omit them unless
       you need to tweak these settings, if so first read:
-      http://docs.openstack.org/developer/swift/admin_guide.html
+      https://docs.openstack.org/swift/latest/admin_guide.html
 
 #. Update the swift proxy hosts values:
 

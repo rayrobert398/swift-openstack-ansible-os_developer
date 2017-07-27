@@ -87,13 +87,13 @@ swift_middleware_list:
   - proxy-logging
   - "{% if swift_ceilometer_enabled | bool %}ceilometer{% endif %}"
   - cache
-  - "{% if swift_swift3_enabled | bool%}swift3{% endif %}"
-  - "{% if swift_swift3_enabled | bool%}s3token{% endif %}"
   - container_sync
   - bulk
   - tempurl
   - ratelimit
   - authtoken
+  - "{% if swift_swift3_enabled | bool%}swift3{% endif %}"
+  - "{% if swift_swift3_enabled | bool%}s3token{% endif %}"
   - keystoneauth
   - staticweb
   - copy

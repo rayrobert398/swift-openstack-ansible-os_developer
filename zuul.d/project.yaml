@@ -26,6 +26,7 @@
         - openstack-ansible-multireg-ubuntu-xenial
         - openstack-ansible-multireg-centos-7-nv
         - openstack-ansible-pypy-ubuntu-xenial-nv
+        - openstack-ansible-swift3-ubuntu-xenial-nv
     experimental:
       jobs:
         - openstack-ansible-integrated-deploy-aio

@@ -16,3 +16,5 @@
 test_swift_region: 2
 test_swift_repl_network: "eth2"
 swift_pretend_min_part_hours_passed: True
+
+swift_package_state: present

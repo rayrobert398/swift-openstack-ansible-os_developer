@@ -17,13 +17,9 @@ infraMR
 [memcached_all]
 infraMR
 
-[rabbitmq_all]
-infraMR
-
 [service_all:children]
 galera_all
 memcached_all
-rabbitmq_all
 
 [keystone_all]
 infraMR

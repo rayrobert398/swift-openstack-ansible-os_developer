@@ -59,3 +59,5 @@ swift_soft_open_file_limits: 12288
 
 swift_rsync_module_per_drive: True
 test_swift_repl_number: 2
+
+swift_package_state: present

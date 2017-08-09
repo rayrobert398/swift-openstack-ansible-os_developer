@@ -51,3 +51,6 @@ swift:
         ec_num_data_fragments: 3
         ec_num_parity_fragments: 2
         ec_object_segment_size: 1048576
+        deprecated: "{{ ((ansible_os_family | lower) == 'redhat') | ternary('yes', 'no') }}"
+
+swift_package_state: present

@@ -15,11 +15,11 @@
 
 - name: Restart swift services
   service:
-    name: "{{ item.value.program_name }}"
+    name: "{{ item.program_name }}"
     enabled: yes
     state: "restarted"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
-  with_dict: "{{ filtered_swift_services }}"
+  with_items: "{{ filtered_swift_services }}"
 
 - name: Restart rsyslog
   service:

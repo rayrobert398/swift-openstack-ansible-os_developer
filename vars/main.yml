@@ -13,12 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-filtered_swift_services: >
-  {%- set services = swift_services.copy() %}
-  {%- for key,value in swift_services.items() %}
-  {%- if value.group not in group_names or
-  (not value.service_en | default(True) | bool) %}
-  {%- set _ = services.pop(key) %}
-  {%- endif %}
-  {%- endfor %}
-  {{- services -}}
+filtered_swift_services: |-
+  {% set services = [] %}
+  {% for key,value in swift_services.items() %}
+  {%   if (value['group'] in group_names) and
+           (('service_en' not in value) or
+            ('service_en' in value and value['service_en'])) %}
+  {%      set _ = value.update({'service_key': key}) %}
+  {%      set _ = services.append(value) %}
+  {%   endif %}
+  {% endfor %}
+  {{ services }}

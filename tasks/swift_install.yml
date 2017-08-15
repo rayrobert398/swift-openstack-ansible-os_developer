@@ -103,12 +103,12 @@
   notify:
     - Restart swift services
 
-- name: CentOS remove python from path first
+- name: Remove python from path first (CentOS, openSUSE)
   file:
     path:  "{{ swift_bin | dirname }}/bin/python2.7"
     state: "absent"
   when:
-    - ansible_pkg_mgr in ['yum', 'dnf']
+    - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
     - swift_get_venv | changed
 
 - name: Update virtualenv path

@@ -120,20 +120,6 @@
   static: no
   when: swift_pypy_enabled | bool
 
-- name: Record the need for a service restart
-  ini_file:
-    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
-    section: swift
-    option: need_service_restart
-    value: True
-  when: swift_get_venv | changed or
-        swift_venv_dir | changed or
-        install_packages | changed or
-        ansible_local is not defined or
-        'openstack_ansible' not in ansible_local or
-        'swift' not in ansible_local['openstack_ansible'] or
-        'need_service_restart' not in ansible_local['openstack_ansible']['swift']
-
 - name: Record the venv tag deployed
   ini_file:
     dest: "/etc/ansible/facts.d/openstack_ansible.fact"

@@ -1,5 +1,5 @@
 ---
-# Copyright 2015, Rackspace US, Inc.
+# Copyright 2017, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,20 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Setup the keys, host and containers
-- include: common/test-setup-host.yml
+- job:
+    name: openstack-ansible-multireg-ubuntu-xenial
+    parent: openstack-ansible-functional-ubuntu-xenial
+    vars:
+      tox_env: multi_reg
 
-# Install Memcached/Galera/Rabbitmq
-- include: common/test-install-infra.yml
+- job:
+    name: openstack-ansible-multireg-centos-7-nv
+    parent: openstack-ansible-functional-centos-7
+    voting: false
+    vars:
+      tox_env: multi_reg
 
-# Install Keystone
-- include: common/test-install-keystone.yml
+- job:
+    name: openstack-ansible-pypy-ubuntu-xenial-nv
+    parent: openstack-ansible-functional-ubuntu-xenial
+    voting: false
+    vars:
+      tox_env: func_pypy
 
-# Setup Swift-hosts
-- include: common/test-setup-swifthosts.yml
-
-# Ensure the repo is setup for previous version
-- include: common/previous/test-repo-setup.yml
-
-# Install previous swift
-- include: test-install-previous-swift.yml

@@ -93,24 +93,10 @@
   tags:
     - swift-config
 
-# When doing rolling upgrades, we addres a single node at a time
-# In these instances, the variables necessary to do sync/key work aren't available,
-# nor is the sync/key updating necessary. Thus, skip that work on upgrade.
-- name: Check if installing or upgrading
-  set_fact:
-    need_sync: True
-  when:
-    - ansible_local is defined
-    - ('swift' not in ansible_local['openstack_ansible'] or
-       'venv_tag' not in ansible_local['openstack_ansible']['swift'] or
-       ansible_local['openstack_ansible']['swift']['venv_tag'] == swift_venv_tag)
-  tags: swift-config
-
 - include: swift_key_setup.yml
   static: no
   when:
     - "swift_do_sync | bool"
-    - "need_sync is defined"
   tags:
     - swift-config
 
@@ -118,7 +104,6 @@
   static: no
   when:
     - "swift_do_sync | bool"
-    - "need_sync is defined"
   tags:
     - swift-config
     - swift-rings

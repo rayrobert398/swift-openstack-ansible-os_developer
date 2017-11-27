@@ -141,5 +141,7 @@
     args:
       chdir: "/opt/swift/"
       executable: "/bin/bash"
+    tags:
+      - skip_ansible_lint
   vars_files:
     - common/test-vars.yml

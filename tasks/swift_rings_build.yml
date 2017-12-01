@@ -43,7 +43,7 @@
     - "{{ swift.storage_policies }}"
     - [{ type: 'object', port: "{{ swift_object_port }}" }]
 
-- name: "build rings for account/container from contents files"
+- name: "Build rings for account/container from contents files"
   command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '')}}"
   with_nested:
     - [ 'account', 'container' ]
@@ -51,12 +51,12 @@
   register: swift_rings_create
   become: yes
   become_user: "{{ swift_system_user_name }}"
-  changed_when: "{{ swift_rings_create.rc not in [1, 2, 3] }}"
-  failed_when: "{{ swift_rings_create.rc in [1, 2] }}"
+  changed_when: "swift_rings_create.rc not in [1, 2, 3]"
+  failed_when: "swift_rings_create.rc in [1, 2]"
   args:
     chdir: /etc/swift/ring_build_files/
 
-- name: "build rings for storage policies from contents files"
+- name: "Build rings for storage policies from contents files"
   command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '')}}"
   with_nested:
     - "{{ swift.storage_policies }}"
@@ -64,7 +64,7 @@
   register: swift_object_rings_create
   become: yes
   become_user: "{{ swift_system_user_name }}"
-  changed_when: "{{ swift_object_rings_create.rc not in [1, 2, 3] }}"
-  failed_when: "{{ swift_object_rings_create.rc in [1, 2] }}"
+  changed_when: "swift_object_rings_create.rc not in [1, 2, 3]"
+  failed_when: "swift_object_rings_create.rc in [1, 2]"
   args:
     chdir: /etc/swift/ring_build_files/

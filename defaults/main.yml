@@ -474,8 +474,8 @@ swift_pretend_min_part_hours_passed: False
 # Set this option to enable or disable the pypy interpreter for swift
 swift_pypy_enabled: false
 swift_pypy_archive:
-  url: "https://bitbucket.org/pypy/pypy/downloads/pypy2-v5.6.0-linux64.tar.bz2"
-  sha256: "aad55328cb0673a60b2633dcc3c36cf452917ac906b577eb3aed5876a7666fca"
+  url: "https://bitbucket.org/pypy/pypy/downloads/pypy2-v5.9.0-linux64.tar.bz2"
+  sha256: "790febd4f09e22d6e2f81154efc7dc4b2feec72712aaf4f82aa91b550abb4b48"
 swift_pypy_version: "{{ swift_pypy_archive['url'] | basename | replace('.tar.bz2', '') }}"
 swift_pypy_env: "/opt/pypy-runtime/{{ swift_pypy_version }}/bin/pypy"
 # Set the Garbage Collection (GC) options for pypy if you would like to tune these

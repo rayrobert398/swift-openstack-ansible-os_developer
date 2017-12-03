@@ -8,20 +8,25 @@ Swift role for OpenStack-Ansible
    configure-swift.rst
 
 Default Variables
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
 
 .. literalinclude:: ../../defaults/main.yml
    :language: yaml
    :start-after: under the License.
 
 Example Playbook
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
 .. literalinclude:: ../../examples/playbook.yml
    :language: yaml
 
+Dependencies
+~~~~~~~~~~~~
+
+This role needs pip >= 7.1 installed on the target host.
+
 Tags
-^^^^
+~~~~
 
 This role supports two tags: ``swift-install`` and ``swift-config``.
 

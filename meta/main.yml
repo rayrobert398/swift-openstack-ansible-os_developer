@@ -38,7 +38,6 @@ galaxy_info:
     - development
     - openstack
 dependencies:
-  - pip_install
   - rsyslog_client
   - role: apt_package_pinning
     when:

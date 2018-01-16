@@ -112,9 +112,12 @@
     - swift_get_venv | changed
 
 - name: Update virtualenv path
-  command: >
-    virtualenv-tools --update-path=auto --reinitialize {{ swift_bin | dirname }}
+  shell: |
+    find {{ swift_bin }} -name \*.pyc -delete
+    sed -si '1s/^.*python.*$/#!{{ swift_bin | replace ('/','\/') }}\/python/' {{ swift_bin }}/*
   when: swift_get_venv | changed
+  tags:
+    - skip_ansible_lint
 
 - include: swift_pypy_setup.yml
   static: no

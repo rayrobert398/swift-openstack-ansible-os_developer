@@ -115,6 +115,7 @@
   shell: |
     find {{ swift_bin }} -name \*.pyc -delete
     sed -si '1s/^.*python.*$/#!{{ swift_bin | replace ('/','\/') }}\/python/' {{ swift_bin }}/*
+    virtualenv {{ swift_bin | dirname }}
   when: swift_get_venv | changed
   tags:
     - skip_ansible_lint

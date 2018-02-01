@@ -24,9 +24,3 @@
 
 # Setup Swift-hosts
 - include: common/test-setup-swifthosts.yml
-
-# Ensure the repo is setup for previous version
-- include: common/previous/test-repo-setup.yml
-
-# Install previous swift
-- include: test-install-previous-swift.yml

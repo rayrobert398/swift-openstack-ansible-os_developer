@@ -120,8 +120,7 @@
   tags:
     - skip_ansible_lint
 
-- include: swift_pypy_setup.yml
-  static: no
+- include_tasks: swift_pypy_setup.yml
   when: swift_pypy_enabled | bool
 
 - name: Record the venv tag deployed

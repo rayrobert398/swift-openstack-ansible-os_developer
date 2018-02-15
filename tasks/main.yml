@@ -72,7 +72,7 @@
   tags:
     - swift-config
 
-- include_tasks: "swift_init_{{ ansible_service_mgr }}.yml"
+- include_tasks: swift_init_systemd.yml
   tags:
     - swift-config
 

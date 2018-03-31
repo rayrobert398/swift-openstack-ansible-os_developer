@@ -23,4 +23,4 @@ filtered_swift_services: |-
   {%      set _ = services.append(value) %}
   {%   endif %}
   {% endfor %}
-  {{ services }}
+  {{ services | sort(attribute='start_order') }}

@@ -354,113 +354,141 @@ swift_object_expirer_init_overrides: {}
 swift_object_reconstructor_init_overrides: {}
 swift_proxy_server_init_overrides: {}
 
+# Default options applied to all swift service units
+swift_service_defaults:
+  Service:
+    LimitNOFILE: "{{ swift_soft_open_file_limits }}:{{ swift_hard_open_file_limits }}"
+    Environment:
+      ? "PYPY_GC_MIN={{ swift_pypy_gc_min }}"
+      ? "PYPY_GC_MAX={{ swift_pypy_gc_max }}"
+
 swift_services:
-  swift-account-replicator:
-    group: swift_acc
-    program_name: "swift-account-replicator"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/account-server/account-server-replicator.conf', '/etc/swift/account-server/account-server.conf') }}"
-    init_config_overrides: "{{ swift_account_replicator_init_overrides }}"
-  swift-account-replicator-server:
-    group: swift_acc
-    program_name: "swift-account-replicator-server"
-    program_binary: "swift-account-server"
-    program_config_options: "/etc/swift/account-server/account-server-replicator.conf"
-    service_en: "{{ swift_dedicated_replication | bool }}"
-    init_config_overrides: "{{ swift_account_replicator_server_init_overrides }}"
-  swift-account-server:
-    group: swift_acc
-    program_name: "swift-account-server"
-    program_config_options: "/etc/swift/account-server/account-server.conf"
-    init_config_overrides: "{{ swift_account_server_init_overrides }}"
-  swift-account-auditor:
-    group: swift_acc
-    program_name: "swift-account-auditor"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/account-server/account-server-replicator.conf', '/etc/swift/account-server/account-server.conf') }}"
-    init_config_overrides: "{{ swift_account_auditor_init_overrides }}"
-  swift-account-reaper:
-    group: swift_acc
-    program_name: "swift-account-reaper"
-    program_config_options: "/etc/swift/account-server/account-server.conf"
-    init_config_overrides: "{{ swift_account_reaper_init_overrides }}"
-  swift-container-replicator:
-    group: swift_cont
-    program_name: "swift-container-replicator"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/container-server/container-server-replicator.conf', '/etc/swift/container-server/container-server.conf') }}"
-    init_config_overrides: "{{ swift_container_replicator_init_overrides }}"
-  swift-container-replicator-server:
-    group: swift_cont
-    program_name: "swift-container-replicator-server"
-    program_binary: "swift-container-server"
-    program_config_options: "/etc/swift/container-server/container-server-replicator.conf"
-    service_en: "{{ swift_dedicated_replication | bool }}"
-    init_config_overrides: "{{ swift_container_replicator_server_init_overrides }}"
-  swift-container-server:
-    group: swift_cont
-    program_name: "swift-container-server"
-    program_config_options: "/etc/swift/container-server/container-server.conf"
-    init_config_overrides: "{{ swift_container_server_init_overrides }}"
-  swift-container-auditor:
-    group: swift_cont
-    program_name: "swift-container-auditor"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/container-server/container-server-replicator.conf', '/etc/swift/container-server/container-server.conf') }}"
-    init_config_overrides: "{{ swift_container_auditor_init_overrides }}"
-  swift-container-sync:
-    group: swift_cont
-    program_name: "swift-container-sync"
-    program_config_options: "/etc/swift/container-server/container-server.conf"
-    init_config_overrides: "{{ swift_container_sync_init_overrides }}"
-  swift-container-updater:
-    group: swift_cont
-    program_name: "swift-container-updater"
-    program_config_options: "/etc/swift/container-server/container-server.conf"
-    init_config_overrides: "{{ swift_container_updater_init_overrides }}"
-  swift-container-reconciler:
-    group: swift_cont
-    program_name: "swift-container-reconciler"
-    program_config_options: "/etc/swift/container-server/container-reconciler.conf"
-    init_config_overrides: "{{ swift_container_reconciler_init_overrides }}"
-  swift-object-replicator:
-    group: swift_obj
-    program_name: "swift-object-replicator"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/object-server/object-server-replicator.conf', '/etc/swift/object-server/object-server.conf') }}"
-    init_config_overrides: "{{ swift_object_replicator_init_overrides }}"
-  swift-object-replicator-server:
-    group: swift_obj
-    program_name: "swift-object-replicator-server"
-    program_binary: "swift-object-server"
-    program_config_options: "/etc/swift/object-server/object-server-replicator.conf"
-    service_en: "{{ swift_dedicated_replication | bool }}"
-    init_config_overrides: "{{ swift_object_replicator_server_init_overrides }}"
-  swift-object-server:
-    group: swift_obj
-    program_name: "swift-object-server"
-    program_config_options: "/etc/swift/object-server/object-server.conf"
-    init_config_overrides: "{{ swift_object_server_init_overrides }}"
-  swift-object-auditor:
-    group: swift_obj
-    program_name: "swift-object-auditor"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/object-server/object-server-replicator.conf', '/etc/swift/object-server/object-server.conf') }}"
-    init_config_overrides: "{{ swift_object_auditor_init_overrides }}"
-  swift-object-updater:
-    group: swift_obj
-    program_name: "swift-object-updater"
-    program_config_options: "/etc/swift/object-server/object-server.conf"
-    init_config_overrides: "{{ swift_object_updater_init_overrides }}"
-  swift-object-expirer:
-    group: swift_obj
-    program_name: "swift-object-expirer"
-    program_config_options: "/etc/swift/object-server/object-expirer.conf"
-    init_config_overrides: "{{ swift_object_expirer_init_overrides }}"
-  swift-object-reconstructor:
-    group: swift_obj
-    program_name: "swift-object-reconstructor"
-    program_config_options: "{{ swift_dedicated_replication | ternary('/etc/swift/object-server/object-server-replicator.conf', '/etc/swift/object-server/object-server.conf') }}"
-    init_config_overrides: "{{ swift_object_reconstructor_init_overrides }}"
   swift-proxy-server:
     group: swift_proxy
-    program_name: "swift-proxy-server"
-    program_config_options: "/etc/swift/proxy-server/proxy-server.conf"
+    service_name: "swift-proxy-server"
+    execstarts: "{{ swift_bin }}/swift-proxy-server /etc/swift/proxy-server/proxy-server.conf"
     init_config_overrides: "{{ swift_proxy_server_init_overrides }}"
+    start_order: 1
+  swift-account-server:
+    group: swift_acc
+    service_name: "swift-account-server"
+    execstarts: "{{ swift_bin }}/swift-account-server /etc/swift/account-server/account-server.conf"
+    init_config_overrides: "{{ swift_account_server_init_overrides }}"
+    start_order: 2
+  swift-account-replicator-server:
+    group: swift_acc
+    service_name: "swift-account-replicator-server"
+    execstarts: "{{ swift_bin }}/swift-account-server /etc/swift/account-server/account-server-replicator.conf"
+    service_en: "{{ swift_dedicated_replication | bool }}"
+    init_config_overrides: "{{ swift_account_replicator_server_init_overrides }}"
+    start_order: 3
+  swift-container-server:
+    group: swift_cont
+    service_name: swift-container-server
+    execstarts: "{{ swift_bin }}/swift-container-server /etc/swift/container-server/container-server.conf"
+    init_config_overrides: "{{ swift_container_server_init_overrides }}"
+    start_order: 4
+  swift-container-replicator-server:
+    group: swift_cont
+    service_name: "swift-container-replicator-server"
+    execstarts: "{{ swift_bin }}/swift-container-server /etc/swift/container-server/container-server-replicator.conf"
+    service_en: "{{ swift_dedicated_replication | bool }}"
+    init_config_overrides: "{{ swift_container_replicator_server_init_overrides }}"
+    start_order: 5
+  swift-object-server:
+    group: swift_obj
+    service_name: swift-object-server
+    execstarts: "{{ swift_bin }}/swift-object-server /etc/swift/object-server/object-server.conf"
+    init_config_overrides: "{{ swift_object_server_init_overrides }}"
+    start_order: 6
+  swift-object-replicator-server:
+    group: swift_obj
+    service_name: "swift-object-replicator-server"
+    execstarts: "{{ swift_bin }}/swift-object-replicator-server /etc/swift/object-server/object-server-replicator.conf"
+    service_en: "{{ swift_dedicated_replication | bool }}"
+    init_config_overrides: "{{ swift_object_replicator_server_init_overrides }}"
+    start_order: 7
+
+  swift-account-auditor:
+    group: swift_acc
+    service_name: swift-account-auditor
+    execstarts: "{{ swift_bin }}/swift-account-auditor {{ swift_dedicated_replication | ternary('/etc/swift/account-server/account-server-replicator.conf', '/etc/swift/account-server/account-server.conf') }}"
+    init_config_overrides: "{{ swift_account_auditor_init_overrides }}"
+    start_order: 8
+  swift-account-reaper:
+    group: swift_acc
+    service_name: swift-account-reaper
+    execstarts: "{{ swift_bin }}/swift-account-reaper /etc/swift/account-server/account-server.conf"
+    init_config_overrides: "{{ swift_account_reaper_init_overrides }}"
+    start_order: 9
+  swift-account-replicator:
+    group: swift_acc
+    service_name: swift-account-replicator
+    execstarts: "{{ swift_bin }}/swift-account-replicator {{ swift_dedicated_replication | ternary('/etc/swift/account-server/account-server-replicator.conf', '/etc/swift/account-server/account-server.conf') }}"
+    init_config_overrides: "{{ swift_account_replicator_init_overrides }}"
+    start_order: 10
+
+  swift-container-auditor:
+    group: swift_cont
+    service_name: "swift-container-auditor"
+    execstarts: "{{ swift_bin }}/swift-container-auditor {{ swift_dedicated_replication | ternary('/etc/swift/container-server/container-server-replicator.conf', '/etc/swift/container-server/container-server.conf') }}"
+    init_config_overrides: "{{ swift_container_auditor_init_overrides }}"
+    start_order: 11
+  swift-container-reconciler:
+    group: swift_cont
+    service_name: "swift-container-reconciler"
+    execstarts: "{{ swift_bin }}/swift-container-reconciler /etc/swift/container-server/container-reconciler.conf"
+    init_config_overrides: "{{ swift_container_reconciler_init_overrides }}"
+    start_order: 12
+  swift-container-replicator:
+    group: swift_cont
+    service_name: "swift-container-replicator"
+    execstarts: "{{ swift_bin }}/swift-container-replicator {{ swift_dedicated_replication | ternary('/etc/swift/container-server/container-server-replicator.conf', '/etc/swift/container-server/container-server.conf') }}"
+    init_config_overrides: "{{ swift_container_replicator_init_overrides }}"
+    start_order: 13
+  swift-container-sync:
+    group: swift_cont
+    service_name: "swift-container-sync"
+    execstarts: "{{ swift_bin }}/swift-container-sync /etc/swift/container-server/container-server.conf"
+    init_config_overrides: "{{ swift_container_sync_init_overrides }}"
+    start_order: 14
+  swift-container-updater:
+    group: swift_cont
+    service_name: "swift-container-updater"
+    execstarts: "{{ swift_bin }}/swift-container-updater /etc/swift/container-server/container-server.conf"
+    init_config_overrides: "{{ swift_container_updater_init_overrides }}"
+    start_order: 15
+
+  swift-object-auditor:
+    group: swift_obj
+    service_name: "swift-object-auditor"
+    execstarts: "{{ swift_bin }}/swift-object-auditor {{ swift_dedicated_replication | ternary('/etc/swift/object-server/object-server-replicator.conf', '/etc/swift/object-server/object-server.conf') }}"
+    init_config_overrides: "{{ swift_object_auditor_init_overrides }}"
+    start_order: 16
+  swift-object-expirer:
+    group: swift_obj
+    service_name: "swift-object-expirer"
+    execstarts: "{{ swift_bin }}/swift-object-expirer /etc/swift/object-server/object-expirer.conf"
+    init_config_overrides: "{{ swift_object_expirer_init_overrides }}"
+    start_order: 17
+  swift-object-reconstructor:
+    group: swift_obj
+    service_name: "swift-object-reconstructor"
+    execstarts: "{{ swift_bin }}/swift-object-reconstructor {{ swift_dedicated_replication | ternary('/etc/swift/object-server/object-server-replicator.conf', '/etc/swift/object-server/object-server.conf') }}"
+    init_config_overrides: "{{ swift_object_reconstructor_init_overrides }}"
+    start_order: 18
+  swift-object-replicator:
+    group: swift_obj
+    service_name: "swift-object-replicator"
+    execstarts: "{{ swift_bin }}/swift-object-replicator {{ swift_dedicated_replication | ternary('/etc/swift/object-server/object-server-replicator.conf', '/etc/swift/object-server/object-server.conf') }}"
+    init_config_overrides: "{{ swift_object_replicator_init_overrides }}"
+    start_order: 19
+  swift-object-updater:
+    group: swift_obj
+    service_name: "swift-object-updater"
+    execstarts: "{{ swift_bin }}/swift-object-updater /etc/swift/object-server/object-server.conf"
+    init_config_overrides: "{{ swift_object_updater_init_overrides }}"
+    start_order: 20
 
 # Set to True to reset the clock on the last time a rebalance happened,
 # circumventing the min_part_hours check.
@@ -480,8 +508,8 @@ swift_pypy_env: "/opt/pypy-runtime/{{ swift_pypy_version }}/bin/pypy"
 # Set the Garbage Collection (GC) options for pypy if you would like to tune these
 # More info on pypy garbage collection can be found here:
 # http://doc.pypy.org/en/latest/gc_info.html
-#swift_pypy_gc_min: "15M"
-#swift_pypy_gc_max: "1GB"
+swift_pypy_gc_min: "15M"
+swift_pypy_gc_max: "1GB"
 
 # This variable is used by the repo_build process to determine
 # which host group to check for members of before building the

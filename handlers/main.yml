@@ -15,7 +15,7 @@
 
 - name: Restart swift services
   service:
-    name: "{{ item.program_name }}"
+    name: "{{ item.service_name }}"
     enabled: yes
     state: "restarted"
     daemon_reload: yes

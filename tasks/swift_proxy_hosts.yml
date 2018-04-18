@@ -28,6 +28,7 @@
   delay: 10
   when:
     - swift_gnocchi_enabled | bool
+  no_log: True
 
 - name: Store Gnocchi project id
   set_fact:

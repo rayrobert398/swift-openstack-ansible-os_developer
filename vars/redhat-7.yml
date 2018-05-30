@@ -30,4 +30,14 @@ swift_distro_packages:
   - cronie-anacron
   - which
 
+swift_service_distro_packages:
+  - openstack-swift-account
+  - openstack-swift-container
+  - openstack-swift-object
+  - openstack-swift-plugin-swift3
+  - openstack-swift-proxy
+  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
+  - python-memcached
+  - python-swift
+
 swift_rsync_service_name: rsyncd

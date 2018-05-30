@@ -24,6 +24,21 @@
   tags:
     - always
 
+- name: Fail if service was deployed using a different installation method
+  fail:
+    msg: "Switching installation methods for OpenStack services is not supported"
+  when:
+    - ansible_local is defined
+    - ansible_local.openstack_ansible is defined
+    - ansible_local.openstack_ansible.swift is defined
+    - ansible_local.openstack_ansible.swift.install_method is defined
+    - ansible_local.openstack_ansible.swift.install_method != swift_install_method
+
+- name: Gather variables for installation method
+  include_vars: "{{ swift_install_method }}_install.yml"
+  tags:
+    - always
+
 # Check the swift_hash_path_* variables haven't changed
 - include_tasks: swift_check_hashes.yml
   when:

@@ -326,7 +326,6 @@ swift_pip_packages:
   - ecdsa
   - keystonemiddleware
   - pyeclib
-  - python-cinderclient
   - python-keystoneclient
   - python-memcached
   - python-swiftclient

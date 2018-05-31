@@ -319,7 +319,6 @@ swift_do_sync: True
 # swift packages that must be installed before anything else
 swift_requires_pip_packages:
   - virtualenv
-  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
   - httplib2
 
 swift_pip_packages:

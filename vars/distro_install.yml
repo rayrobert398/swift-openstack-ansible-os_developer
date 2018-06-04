@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2018, SUSE Linux GmbH.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,29 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cache_timeout: 600
-
-swift_distro_packages:
-  - curl
-  - gcc
-  - git-core
-  - liberasurecode1
-  - liberasurecode-dev
-  - libffi-dev
-  - openssh-server
-  - python-dev
-  - rsync
-  - libssl-dev
-
-swift_service_distro_packages:
-  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
-  - python-memcache
-  - python-swift
-  - swift
-  - swift-account
-  - swift-container
-  - swift-object
-  - swift-plugin-s3
-  - swift-proxy
-
-swift_rsync_service_name: rsync
+swift_package_list: "{{ swift_distro_packages + swift_service_distro_packages }}"
+_swift_bin: "/usr/bin"

@@ -25,6 +25,9 @@ debug: False
 swift_package_state: "latest"
 swift_pip_package_state: "latest"
 
+# Set installation method.
+swift_install_method: "source"
+
 # Git repo details for swift
 swift_git_repo: https://git.openstack.org/openstack/swift
 swift_git_install_branch: master
@@ -41,7 +44,7 @@ swift_developer_constraints:
 
 # Name of the virtual env to deploy into
 swift_venv_tag: untagged
-swift_bin: "/openstack/venvs/swift-{{ swift_venv_tag }}/bin"
+swift_bin: "{{ _swift_bin }}"
 
 # venv_download, even when true, will use the fallback method of building the
 # venv from scratch if the venv download fails.

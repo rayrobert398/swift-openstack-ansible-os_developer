@@ -22,6 +22,7 @@ swift_distro_packages:
   - liberasurecode-devel
   - libffi-devel
   - openssh
+  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
   - python-devel
   - rsync
   - libopenssl-devel

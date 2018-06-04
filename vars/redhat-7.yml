@@ -23,6 +23,7 @@ swift_distro_packages:
   - libselinux
   - libselinux-devel
   - openssh-server
+  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
   - python-devel
   - rsync
   - openssl-devel

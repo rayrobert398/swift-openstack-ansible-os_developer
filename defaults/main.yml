@@ -327,6 +327,7 @@ swift_pip_packages:
   - dnspython
   - ecdsa
   - keystonemiddleware
+  - osprofiler
   - pyeclib
   - python-keystoneclient
   - python-memcached

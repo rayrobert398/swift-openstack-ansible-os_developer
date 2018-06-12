@@ -16,5 +16,8 @@ Ansible role to install OpenStack swift and swift registry.
 Documentation for the project can be found at:
   https://docs.openstack.org/openstack-ansible-os_swift/latest
 
+Release notes for the project can be found at:
+  https://docs.openstack.org/releasenotes/openstack-ansible-os_swift/
+
 The project home is at:
   https://launchpad.net/openstack-ansible

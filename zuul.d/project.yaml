@@ -19,7 +19,8 @@
         # TODO(evrardjp): Revert this to voting as soon
         # as https://bugs.launchpad.net/openstack-ansible/+bug/1729263
         # is fixed.
-        - openstack-ansible-functional-centos-7-nv
+        - openstack-ansible-functional-centos-7:
+            voting: false
         - openstack-ansible-functional-opensuse-423
         - openstack-ansible-functional-ubuntu-xenial
         - openstack-ansible-upgrade-ubuntu-xenial
@@ -29,7 +30,8 @@
         - openstack-ansible-functional-distro_install-ubuntu-xenial
           # NOTE(hwoarang) Centos7 is having some troubles with repo dependencies
           # so disabling until it's investigated.
-        - openstack-ansible-functional-distro_install-centos-7-nv
+        - openstack-ansible-functional-distro_install-centos-7:
+            voting: false
         - openstack-ansible-functional-distro_install-opensuse-423
     experimental:
       jobs:

@@ -1,3 +1,4 @@
+---
 - name: Install swift server
   hosts: swift_all
   user: root

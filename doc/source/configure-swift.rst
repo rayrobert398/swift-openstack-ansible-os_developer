@@ -34,8 +34,8 @@ usage.
    to Object Storage.
 
    If this value is ``False``, then by default, only users with the
-   admin or ``swiftoperator`` role are allowed to create containers or
-   manage tenants.
+   admin role or role set in ``swift_operator_role`` are allowed to
+   create containers or manage tenants.
 
    When the backend type for the Image Service (glance) is set to
    ``swift``, glance can access the swift cluster

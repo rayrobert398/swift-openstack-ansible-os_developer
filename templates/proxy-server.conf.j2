@@ -85,15 +85,15 @@ memcache_secret_key = {{ memcached_encryption_key }}
 use = egg:swift#keystoneauth
 {% if swift_allow_all_users is defined and swift_allow_all_users == True %}
 {% if 'ceilometer' in swift_middleware_list %}
-operator_roles = admin, swiftoperator, _member_, {{ swift_reselleradmin_role }}
+operator_roles = admin, {{ swift_operator_role }}, _member_, {{ swift_reselleradmin_role }}
 {% else %}
-operator_roles = admin, swiftoperator, _member_
+operator_roles = admin, {{ swift_operator_role }}, _member_
 {% endif %}
 {% else %}
 {% if 'ceilometer' in swift_middleware_list %}
-operator_roles = admin, swiftoperator, {{ swift_reselleradmin_role }}
+operator_roles = admin, {{ swift_operator_role }}, {{ swift_reselleradmin_role }}
 {% else %}
-operator_roles = admin, swiftoperator
+operator_roles = admin, {{ swift_operator_role }}
 {% endif %}
 {% endif %}
 # The reseller admin role has the ability to create and delete accounts

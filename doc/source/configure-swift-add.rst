@@ -19,8 +19,8 @@ existing deployment.
    to swift.
 
    If this value is ``False``, by default only users with the
-   ``admin`` or ``swiftoperator`` role can create containers or
-   manage tenants.
+   ``admin`` role or role set in ``swift_operator_role`` can create
+   containers or manage tenants.
 
    When the backend type for the glance is set to
    ``swift``, glance can access the swift cluster

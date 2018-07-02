@@ -20,8 +20,6 @@ swift_distro_packages:
   - liberasurecode
   - liberasurecode-devel
   - libffi-devel
-  - libselinux
-  - libselinux-devel
   - openssh-server
   - python-keystoneclient # Keystoneclient needed to OSA keystone lib
   - python-devel

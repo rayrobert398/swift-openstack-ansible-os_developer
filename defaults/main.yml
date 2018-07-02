@@ -194,13 +194,15 @@ swift_force_change_hashes: False
 ## Swift ceilometer variables
 swift_reselleradmin_role: ResellerAdmin
 
-# Swift ceilometer rabbitmq settings
-swift_rabbitmq_telemetry_userid: "swift"
-swift_rabbitmq_telemetry_vhost: "/swift"
-swift_rabbitmq_telemetry_port: "5672"
-swift_rabbitmq_telemetry_servers: "127.0.0.1"
-# For now swift ceilometer does not work with SSL - this is a speculative option in the hope it gets added
-swift_rabbitmq_telemetry_use_ssl: "False"
+## Oslo Messaging
+
+# Notify
+swift_oslomsg_notify_transport: rabbit
+swift_oslomsg_notify_servers: 127.0.0.1
+swift_oslomsg_notify_port: 5672
+swift_oslomsg_notify_use_ssl: False
+swift_oslomsg_notify_userid: swift
+swift_oslomsg_notify_vhost: /swift
 
 ## General Swift configuration
 # We are not capping the default value for these swift variables which define

@@ -20,6 +20,11 @@ swift_gnocchi_enabled: False
 ## Verbosity Options
 debug: False
 
+# Set the host which will execute the shade modules
+# for the service setup. The host must already have
+# clouds.yaml properly configured.
+swift_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
+
 # Set the package install state for distribution and pip packages
 # Options are 'present' and 'latest'
 swift_package_state: "latest"
@@ -319,10 +324,6 @@ swift_do_sync: True
 #     key2: {{ swift_realm_key2 }}
 #     clustername1: https://<cluster1-ip>/v1
 #     clustername2: https://<cluster2-ip>/v1
-
-# swift packages that must be installed before anything else
-swift_requires_pip_packages:
-  - virtualenv
 
 swift_pip_packages:
   - ceilometermiddleware

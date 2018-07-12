@@ -39,7 +39,7 @@
     - "{{ swift_pypy_env }} /opt/get-pip.py"
     - "{{ swift_pypy_env | dirname }}/pip install --upgrade virtualenv"
   when:
-    - local_pypy | changed
+    - local_pypy is changed
 
 - name: Check for pypy venv
   stat:
@@ -65,7 +65,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
   notify:

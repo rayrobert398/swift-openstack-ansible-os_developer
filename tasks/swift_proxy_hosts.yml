@@ -23,7 +23,7 @@
     login_project_name: "{{ keystone_admin_tenant_name }}"
     insecure: "{{ keystone_service_adminuri_insecure }}"
   register: get_gnocchi_project
-  until: get_gnocchi_project|success
+  until: get_gnocchi_project is success
   retries: 5
   delay: 10
   when:
@@ -35,7 +35,7 @@
     swift_gnocchi_service_project_id: "{{ keystone_facts.id }}"
   when:
     - swift_gnocchi_enabled | bool
-    - get_gnocchi_project | success
+    - get_gnocchi_project is success
 
 - name: swift proxy server configuration
   config_template:

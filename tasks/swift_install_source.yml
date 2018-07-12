@@ -32,7 +32,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
 
@@ -55,7 +55,7 @@
   file:
     path: "{{ swift_bin | dirname }}"
     state: absent
-  when: swift_get_venv | changed
+  when: swift_get_venv is changed
 
 - name: Create swift venv dir
   file:
@@ -63,14 +63,14 @@
     state: directory
     mode: "0755"
   register: swift_venv_dir
-  when: swift_get_venv | changed
+  when: swift_get_venv is changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ swift_venv_download_url | basename }}"
     dest: "{{ swift_bin | dirname }}"
     copy: "no"
-  when: swift_get_venv | changed
+  when: swift_get_venv is changed
   notify:
     - Restart swift services
 
@@ -85,7 +85,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
   when: swift_get_venv | failed or swift_get_venv | skipped
@@ -98,7 +98,7 @@
     state: "absent"
   when:
     - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
-    - swift_get_venv | changed
+    - swift_get_venv is changed
 
 # NOTE(odyssey4me):
 # We reinitialize the venv to ensure that the right
@@ -116,7 +116,7 @@
         --no-pip \
         --no-setuptools \
         --no-wheel
-  when: swift_get_venv | changed
+  when: swift_get_venv is changed
   tags:
     - skip_ansible_lint
 

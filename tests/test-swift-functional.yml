@@ -39,7 +39,7 @@
     when: groups['keystone_all'] is defined
     register: add_service
     run_once: true
-    until: add_service|success
+    until: add_service is success
     retries: 5
     delay: 10
     no_log: True
@@ -59,7 +59,7 @@
     when: groups['keystone_all'] is defined
     run_once: true
     register: add_service
-    until: add_service|success
+    until: add_service is success
     retries: 5
     delay: 10
     no_log: True
@@ -85,7 +85,7 @@
     when: groups['keystone_all'] is defined
     run_once: true
     register: add_service
-    until: add_service|success
+    until: add_service is success
     retries: 5
     delay: 10
     no_log: True
@@ -111,7 +111,7 @@
     when: groups['keystone_all'] is defined
     run_once: true
     register: add_service
-    until: add_service|success
+    until: add_service is success
     retries: 5
     delay: 10
     no_log: True

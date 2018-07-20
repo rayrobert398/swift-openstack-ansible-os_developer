@@ -35,7 +35,6 @@
         - openstack-ansible-functional-distro_install-opensuse-423
     experimental:
       jobs:
-        - openstack-ansible-pypy-ubuntu-xenial-nv
         - openstack-ansible-integrated-deploy-aio
     gate:
       jobs:

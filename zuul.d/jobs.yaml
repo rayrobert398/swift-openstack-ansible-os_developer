@@ -27,13 +27,6 @@
       tox_env: multi_reg
 
 - job:
-    name: openstack-ansible-pypy-ubuntu-xenial-nv
-    parent: openstack-ansible-functional-ubuntu-xenial
-    voting: false
-    vars:
-      tox_env: func_pypy
-
-- job:
     name: openstack-ansible-swift3-ubuntu-xenial-nv
     parent: openstack-ansible-functional-ubuntu-xenial
     voting: false

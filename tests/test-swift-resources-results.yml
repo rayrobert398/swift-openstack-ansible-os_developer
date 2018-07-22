@@ -15,7 +15,7 @@
 
 - name: Playbook to report resource tests
   hosts: localhost
-  user: root
+  become: yes
   gather_facts: no
   tasks:
     - name: Kill resource test

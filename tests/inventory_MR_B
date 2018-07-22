@@ -17,6 +17,15 @@ infraMR
 [memcached_all]
 infraMR
 
+[oslomsg_rpc_all]
+infraMR
+
+[oslomsg_notify_all]
+infraMR
+
+[rabbitmq_all]
+infraMR
+
 [service_all:children]
 galera_all
 memcached_all

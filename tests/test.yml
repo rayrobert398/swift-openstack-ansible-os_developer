@@ -16,15 +16,10 @@
 # Setup the keys, host and containers
 - include: common/test-setup-host.yml
 
-# Install Memcached/Galera
-# NOTE(mhayden): RabbitMQ is only needed if ceilometer middleware is being
-# deployed. That is not included in the gate testing.
-- include: common/test-install-memcached.yml
-- include: common/test-install-galera.yml
+# Install Infrastructure
+- include: common/test-install-infra.yml
 
 # Install Keystone
-# NOTE(mhayden): Disable keystone messaging since we are not deploying
-# RabbitMQ
 - include: common/test-install-keystone.yml
 
 # Install Swift

@@ -321,7 +321,6 @@ swift_do_sync: True
 # swift packages that must be installed before anything else
 swift_requires_pip_packages:
   - virtualenv
-  - httplib2
 
 swift_pip_packages:
   - ceilometermiddleware

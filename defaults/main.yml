@@ -197,10 +197,12 @@ swift_reselleradmin_role: ResellerAdmin
 ## Oslo Messaging
 
 # Notify
-swift_oslomsg_notify_transport: rabbit
-swift_oslomsg_notify_servers: 127.0.0.1
-swift_oslomsg_notify_port: 5672
-swift_oslomsg_notify_use_ssl: False
+swift_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group | default('rabbitmq_all') }}"
+swift_oslomsg_notify_setup_host: "{{ (swift_oslomsg_notify_host_group in groups) | ternary(groups[swift_oslomsg_notify_host_group][0], 'localhost') }}"
+swift_oslomsg_notify_transport: "{{ oslomsg_notify_transport | default('rabbit') }}"
+swift_oslomsg_notify_servers: "{{ oslomsg_notify_servers | default('127.0.0.1') }}"
+swift_oslomsg_notify_port: "{{ oslomsg_notify_port | default('5672') }}"
+swift_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl | default(False) }}"
 swift_oslomsg_notify_userid: swift
 swift_oslomsg_notify_vhost: /swift
 

@@ -115,18 +115,19 @@
     - swift-config
     - systemd-service
 
-- include_tasks: mq_setup.yml
+- import_tasks: mq_setup.yml
   when:
     - "swift_services['swift-proxy-server']['group'] in group_names"
     - "inventory_hostname == ((groups[swift_services['swift-proxy-server']['group']]| intersect(ansible_play_hosts)) | list)[0]"
-  with_items:
-    - oslomsg_setup_host: "{{ swift_oslomsg_notify_setup_host }}"
-      oslomsg_userid: "{{ swift_oslomsg_notify_userid }}"
-      oslomsg_password: "{{ swift_oslomsg_notify_password }}"
-      oslomsg_vhost: "{{ swift_oslomsg_notify_vhost }}"
-      oslomsg_transport: "{{ swift_oslomsg_notify_transport }}"
-  no_log: true
+  vars:
+    _oslomsg_configure_notify: "{{ swift_ceilometer_enabled | bool }}"
+    _oslomsg_notify_setup_host: "{{ swift_oslomsg_notify_setup_host }}"
+    _oslomsg_notify_userid: "{{ swift_oslomsg_notify_userid }}"
+    _oslomsg_notify_password: "{{ swift_oslomsg_notify_password }}"
+    _oslomsg_notify_vhost: "{{ swift_oslomsg_notify_vhost }}"
+    _oslomsg_notify_transport: "{{ swift_oslomsg_notify_transport }}"
   tags:
+    - common-mq
     - swift-config
 
 - include_tasks: swift_service_setup.yml

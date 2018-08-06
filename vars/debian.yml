@@ -30,6 +30,7 @@ swift_distro_packages:
 
 swift_service_distro_packages:
   - python-keystoneclient # Keystoneclient needed to OSA keystone lib
+  - python-keystonemiddleware
   - python-memcache
   - python-swift
   - swift

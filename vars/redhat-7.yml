@@ -36,6 +36,7 @@ swift_service_distro_packages:
   - openstack-swift-plugin-swift3
   - openstack-swift-proxy
   - python-keystoneclient # Keystoneclient needed to OSA keystone lib
+  - python-keystonemiddleware
   - python-memcached
   - python-swift
 

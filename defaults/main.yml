@@ -204,10 +204,6 @@ swift_oslomsg_notify_servers: "{{ oslomsg_notify_servers | default('127.0.0.1') 
 swift_oslomsg_notify_port: "{{ oslomsg_notify_port | default('5672') }}"
 swift_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl | default(False) }}"
 swift_oslomsg_notify_userid: swift
-# TODO(odyssey4me):
-# Remove the password default once a fix has merged
-# into the integrated build.
-swift_rabbitmq_password: "secrete"
 swift_oslomsg_notify_vhost: /swift
 
 ## General Swift configuration

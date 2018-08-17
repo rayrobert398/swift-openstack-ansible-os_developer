@@ -87,6 +87,19 @@
   tags:
     - swift-config
 
+- include_tasks: swift_key_setup.yml
+  when:
+    - "swift_do_sync | bool"
+  tags:
+    - swift-config
+
+- include_tasks: swift_rings.yml
+  when:
+    - "swift_do_sync | bool"
+  tags:
+    - swift-config
+    - swift-rings
+
 - name: Run the systemd service role
   include_role:
     name: systemd_service
@@ -137,19 +150,6 @@
     - "inventory_hostname == ((groups['swift_all'] | intersect(ansible_play_hosts)) | list)[0]"
   tags:
     - swift-config
-
-- include_tasks: swift_key_setup.yml
-  when:
-    - "swift_do_sync | bool"
-  tags:
-    - swift-config
-
-- include_tasks: swift_rings.yml
-  when:
-    - "swift_do_sync | bool"
-  tags:
-    - swift-config
-    - swift-rings
 
 - name: Flush handlers
   meta: flush_handlers

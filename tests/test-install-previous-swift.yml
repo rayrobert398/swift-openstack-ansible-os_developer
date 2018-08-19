@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Ensure the repo is setup for previous version
-- include: common/previous/test-repo-setup.yml
+- import_playbook: common/previous/test-repo-setup.yml
 
 - name: Playbook for deploying swift
   hosts: "{{ swift_groups | default('swift_all:swift_remote_all') }}"

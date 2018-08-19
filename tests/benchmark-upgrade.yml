@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: test-swift-resources-upgrade.yml
+- import_playbook: test-swift-resources-upgrade.yml
 
-- include: common/test-install-swift.yml
+- import_playbook: common/test-install-swift.yml
 
-- include: test-swift-resources-results.yml
+- import_playbook: test-swift-resources-results.yml
 

@@ -20,13 +20,8 @@
       - release-notes-jobs-python3
     check:
       jobs:
-        - openstack-ansible-upgrade-ubuntu-xenial
-        # TODO(odyssey4me): Revert this once the multi-region
-        # tests are fixed.
-        - openstack-ansible-multireg-ubuntu-xenial:
+        - openstack-ansible-swift3-ubuntu-xenial:
             voting: false
-        - openstack-ansible-multireg-centos-7-nv
-        - openstack-ansible-swift3-ubuntu-xenial-nv
         - openstack-ansible-functional-distro_install-ubuntu-xenial
           # NOTE(hwoarang) Centos7 is having some troubles with repo dependencies
           # so disabling until it's investigated.
@@ -35,9 +30,5 @@
         - openstack-ansible-functional-distro_install-opensuse-423
     gate:
       jobs:
-        - openstack-ansible-upgrade-ubuntu-xenial
-        # TODO(odyssey4me): Revert this once the multi-region
-        # tests are fixed.
-        #- openstack-ansible-multireg-ubuntu-xenial
         - openstack-ansible-functional-distro_install-ubuntu-xenial
         - openstack-ansible-functional-distro_install-opensuse-423

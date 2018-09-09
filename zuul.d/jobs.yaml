@@ -14,22 +14,8 @@
 # limitations under the License.
 
 - job:
-    name: openstack-ansible-multireg-ubuntu-xenial
+    name: openstack-ansible-swift3-ubuntu-xenial
     parent: openstack-ansible-functional-ubuntu-xenial
     vars:
-      tox_env: multi_reg
-
-- job:
-    name: openstack-ansible-multireg-centos-7-nv
-    parent: openstack-ansible-functional-centos-7
-    voting: false
-    vars:
-      tox_env: multi_reg
-
-- job:
-    name: openstack-ansible-swift3-ubuntu-xenial-nv
-    parent: openstack-ansible-functional-ubuntu-xenial
-    voting: false
-    vars:
-      tox_env: func_swift3
+      tox_env: swift3
 

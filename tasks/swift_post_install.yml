@@ -47,3 +47,15 @@
   notify:
     - Restart swift services
     - Restart rsyslog
+
+- name: Enable SSHD
+  systemd:
+    name: "{{ swift_sshd }}"
+    state: started
+    enabled: yes
+    masked: no
+    daemon_reload: yes
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['swift_proxy'] }}"
+  when:
+    - "inventory_hostname == ((groups['swift_proxy'] | intersect(ansible_play_hosts)) | list)[0]"

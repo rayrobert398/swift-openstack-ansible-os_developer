@@ -39,3 +39,5 @@ swift_service_distro_packages:
   - python-swift
 
 swift_rsync_service_name: rsyncd
+
+swift_sshd: sshd

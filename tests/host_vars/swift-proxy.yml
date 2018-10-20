@@ -15,6 +15,7 @@
 
 ansible_host: 10.1.1.102
 storage_address: 10.1.2.102
+container_name: swift-proxy
 container_networks:
   management_address:
     address: "{{ ansible_host }}"

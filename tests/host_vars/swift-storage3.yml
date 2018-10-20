@@ -20,6 +20,7 @@ swift_vars:
   storage_ip: 10.1.2.105
 
 ansible_host: 10.1.1.105
+container_name: swift-storage3
 container_networks:
   management_address:
     address: "{{ ansible_host }}"

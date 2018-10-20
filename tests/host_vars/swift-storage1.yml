@@ -18,6 +18,7 @@
 ansible_host: 10.1.1.103
 swift_storage_address: 10.1.2.103
 swift_replication_address: 10.1.3.103
+container_name: swift-storage1
 container_networks:
   management_address:
     address: "{{ ansible_host }}"

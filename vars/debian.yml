@@ -17,14 +17,16 @@ cache_timeout: 600
 
 swift_distro_packages:
   - curl
-  - gcc
   - git-core
+  - openssh-server
+  - rsync
+
+swift_devel_distro_packages:
+  - gcc
   - liberasurecode1
   - liberasurecode-dev
   - libffi-dev
-  - openssh-server
   - python-dev
-  - rsync
   - libssl-dev
 
 swift_service_distro_packages:

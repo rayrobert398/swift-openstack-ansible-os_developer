@@ -16,18 +16,20 @@
 
 swift_distro_packages:
   - curl
-  - gcc
   - git-core
-  - liberasurecode1
-  - liberasurecode-devel
-  - libffi-devel
   - openssh
-  - python-devel
   - rsync
-  - libopenssl-devel
   - cronie
   - cronie-anacron
   - which
+
+swift_devel_distro_packages:
+  - gcc
+  - liberasurecode1
+  - liberasurecode-devel
+  - libffi-devel
+  - python-devel
+  - libopenssl-devel
 
 swift_service_distro_packages:
   - openstack-swift

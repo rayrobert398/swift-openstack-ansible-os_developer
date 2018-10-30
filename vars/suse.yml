@@ -15,20 +15,16 @@
 # limitations under the License.
 
 swift_distro_packages:
-  - curl
-  - git-core
-  - openssh
-  - rsync
   - cronie
   - cronie-anacron
-  - which
+  - liberasurecode1
+  - openssh
+  - rsync
 
 swift_devel_distro_packages:
-  - gcc
-  - liberasurecode1
+  - git-core
   - liberasurecode-devel
   - libffi-devel
-  - python-devel
   - libopenssl-devel
 
 swift_service_distro_packages:

@@ -13,5 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-swift_package_list: "{{ swift_distro_packages + swift_devel_distro_packages }}"
+swift_package_list: "{{ swift_distro_packages }}"
 _swift_bin: "/openstack/venvs/swift-{{ swift_venv_tag }}/bin"

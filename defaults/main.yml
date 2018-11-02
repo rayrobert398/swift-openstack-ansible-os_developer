@@ -395,7 +395,7 @@ swift_services:
   swift-account-replicator-server:
     group: swift_acc
     service_name: "swift-account-replicator-server"
-    execstarts: "{{ swift_bin }}/swift-account-server /etc/swift/account-server/account-server-replicator.conf"
+    execstarts: "{{ swift_bin }}/swift-account-replicator /etc/swift/account-server/account-server-replicator.conf"
     service_en: "{{ swift_dedicated_replication | bool }}"
     init_config_overrides: "{{ swift_account_replicator_server_init_overrides }}"
     start_order: 3
@@ -408,7 +408,7 @@ swift_services:
   swift-container-replicator-server:
     group: swift_cont
     service_name: "swift-container-replicator-server"
-    execstarts: "{{ swift_bin }}/swift-container-server /etc/swift/container-server/container-server-replicator.conf"
+    execstarts: "{{ swift_bin }}/swift-container-replicator /etc/swift/container-server/container-server-replicator.conf"
     service_en: "{{ swift_dedicated_replication | bool }}"
     init_config_overrides: "{{ swift_container_replicator_server_init_overrides }}"
     start_order: 5
@@ -421,7 +421,7 @@ swift_services:
   swift-object-replicator-server:
     group: swift_obj
     service_name: "swift-object-replicator-server"
-    execstarts: "{{ swift_bin }}/swift-object-replicator-server /etc/swift/object-server/object-server-replicator.conf"
+    execstarts: "{{ swift_bin }}/swift-object-replicator /etc/swift/object-server/object-server-replicator.conf"
     service_en: "{{ swift_dedicated_replication | bool }}"
     init_config_overrides: "{{ swift_object_replicator_server_init_overrides }}"
     start_order: 7

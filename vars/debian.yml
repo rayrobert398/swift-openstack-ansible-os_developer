@@ -41,3 +41,5 @@ swift_service_distro_packages:
   - swift-proxy
 
 swift_rsync_service_name: rsync
+
+swift_sshd: ssh

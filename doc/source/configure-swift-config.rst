@@ -116,7 +116,7 @@ file**
    ``storage_policies``
        Storage policies determine on which hardware data is stored, how
        the data is stored across that hardware, and in which region the
-       data resides. Each storage policy must have an unique ``name``
+       data resides. Each storage policy must have a unique ``name``
        and a unique ``index``. There must be a storage policy with an
        index of 0 in the ``swift.yml`` file to use any legacy containers
        created before storage policies were instituted.

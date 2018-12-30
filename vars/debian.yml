@@ -19,6 +19,7 @@ swift_distro_packages:
   - curl
   - git-core
   - openssh-server
+  - openssh-client
   - rsync
 
 swift_devel_distro_packages:

@@ -17,6 +17,7 @@ swift_distro_packages:
   - curl
   - git
   - openssh-server
+  - openssh-clients
   - rsync
   - cronie
   - cronie-anacron

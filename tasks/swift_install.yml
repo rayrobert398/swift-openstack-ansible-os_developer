@@ -36,8 +36,19 @@
   retries: 5
   delay: 2
 
-- name: Install swift packages from PIP
-  include_tasks: swift_install_source.yml
+- name: Install the python venv
+  import_role:
+    name: "python_venv_build"
+  vars:
+    venv_build_constraints: "{{ swift_git_constraints }}"
+    venv_build_distro_package_list: "{{ swift_devel_distro_packages }}"
+    venv_install_destination_path: "{{ swift_bin | dirname }}"
+    venv_pip_install_args: "{{ swift_pip_install_args }}"
+    venv_pip_packages: "{{ swift_pip_packages }}"
+    venv_facts_when_changed:
+      - section: "swift"
+        option: "venv_tag"
+        value: "{{ swift_venv_tag }}"
   when: swift_install_method == 'source'
 
 - include_tasks: swift_pypy_setup.yml

@@ -19,3 +19,53 @@
     vars:
       tox_env: swift3
 
+- job:
+    name: openstack-ansible-deploy-aio_metal_swift-centos-7
+    parent: openstack-ansible-deploy-aio
+    nodeset: centos-7
+    vars:
+      action: deploy
+      scenario: aio_metal_swift
+
+- job:
+    name: openstack-ansible-deploy-aio_distro_metal_swift-centos-7
+    parent: openstack-ansible-deploy-aio
+    nodeset: centos-7
+    vars:
+      action: deploy
+      scenario: aio_metal_swift
+      install_method: distro
+
+- job:
+    name: openstack-ansible-deploy-aio_metal_swift-opensuse-150
+    parent: openstack-ansible-deploy-aio
+    nodeset: opensuse-150
+    vars:
+      action: deploy
+      scenario: aio_metal_swift
+
+- job:
+    name: openstack-ansible-deploy-aio_distro_metal_swift-opensuse-150
+    parent: openstack-ansible-deploy-aio
+    nodeset: opensuse-150
+    vars:
+      action: deploy
+      scenario: aio_metal_swift
+      install_method: distro
+
+- job:
+    name: openstack-ansible-deploy-aio_metal_swift-ubuntu-bionic
+    parent: openstack-ansible-deploy-aio
+    nodeset: ubuntu-bionic
+    vars:
+      action: deploy
+      scenario: aio_metal_swift
+
+- job:
+    name: openstack-ansible-deploy-aio_distro_metal_swift-ubuntu-bionic
+    parent: openstack-ansible-deploy-aio
+    nodeset: ubuntu-bionic
+    vars:
+      action: deploy
+      scenario: aio_metal_swift
+      install_method: distro

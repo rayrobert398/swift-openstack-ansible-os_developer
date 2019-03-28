@@ -29,6 +29,10 @@ swift_devel_distro_packages:
 
 swift_service_distro_packages:
   - openstack-swift
+  - openstack-swift-account
+  - openstack-swift-container
+  - openstack-swift-object
+  - openstack-swift-proxy
   - python-keystonemiddleware
   - python-memcached
   - python-swift

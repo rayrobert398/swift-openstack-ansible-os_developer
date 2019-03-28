@@ -15,12 +15,24 @@
 
 - project:
     templates:
-      - openstack-ansible-role-jobs
-      - openstack-ansible-role-distro_install-jobs
       - check-requirements
+      - openstack-ansible-linters
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
     check:
       jobs:
+        - openstack-ansible-deploy-aio_metal_swift-centos-7
+        - openstack-ansible-deploy-aio_metal_swift-ubuntu-bionic
+        - openstack-ansible-deploy-aio_distro_metal_swift-centos-7
         - openstack-ansible-swift3-ubuntu-xenial:
             voting: false
+    gate:
+      jobs:
+        - openstack-ansible-deploy-aio_metal_swift-centos-7
+        - openstack-ansible-deploy-aio_metal_swift-ubuntu-bionic
+        - openstack-ansible-deploy-aio_distro_metal_swift-centos-7
+    experimental:
+      jobs:
+        - openstack-ansible-deploy-aio_metal_swift-opensuse-150
+        - openstack-ansible-deploy-aio_distro_metal_swift-opensuse-150
+        - openstack-ansible-deploy-aio_distro_metal_swift-ubuntu-bionic

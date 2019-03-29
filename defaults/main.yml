@@ -38,14 +38,9 @@ swift_install_method: "source"
 swift_git_repo: https://git.openstack.org/openstack/swift
 swift_git_install_branch: master
 
-# Git repo details for swift3 middleware
-swift_swift3_git_repo: https://git.openstack.org/openstack/swift3
-swift_swift3_git_install_branch: master
-
 swift_upper_constraints_url: "{{ requirements_git_url | default('https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt?h=' ~ requirements_git_install_branch | default('master')) }}"
 swift_git_constraints:
   - "git+{{ swift_git_repo }}@{{ swift_git_install_branch }}#egg=swift"
-  - "git+{{ swift_swift3_git_repo }}@{{ swift_swift3_git_install_branch }}#egg=swift3"
   - "--constraint {{ swift_upper_constraints_url }}"
 
 swift_pip_install_args: "{{ pip_install_options | default('') }}"
@@ -75,15 +70,6 @@ swift_syslog_log_perms: "0644"
 ## Auth token
 swift_delay_auth_decision: true
 
-## Swift3 middleware options
-swift_swift3_enabled: false
-swift_swift3_allow_no_owner: false
-swift_swift3_location: US
-swift_swift3_max_bucket_listing: 1000
-swift_swift3_max_multi_delete_objects: 1000
-swift_swift3_s3_acl: false
-swift_swift3_storage_domain: ""
-
 ## Swift middleware
 # NB: The order is important!
 swift_middleware_list:
@@ -98,8 +84,6 @@ swift_middleware_list:
   - tempurl
   - ratelimit
   - authtoken
-  - "{% if swift_swift3_enabled | bool%}swift3{% endif %}"
-  - "{% if swift_swift3_enabled | bool%}s3token{% endif %}"
   - keystoneauth
   - staticweb
   - copy
@@ -335,7 +319,6 @@ swift_pip_packages:
   - python-memcached
   - python-swiftclient
   - swift
-  - swift3
 
 swift_account_replicator_init_overrides: {}
 swift_account_replicator_server_init_overrides: {}

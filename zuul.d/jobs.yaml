@@ -14,12 +14,6 @@
 # limitations under the License.
 
 - job:
-    name: openstack-ansible-swift3-ubuntu-xenial
-    parent: openstack-ansible-functional-ubuntu-xenial
-    vars:
-      tox_env: swift3
-
-- job:
     name: openstack-ansible-deploy-aio_metal_swift-centos-7
     parent: openstack-ansible-deploy-aio
     nodeset: centos-7

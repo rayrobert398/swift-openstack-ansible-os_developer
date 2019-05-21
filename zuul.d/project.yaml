@@ -17,22 +17,7 @@
     templates:
       - check-requirements
       - openstack-ansible-linters
+      - openstack-ansible-deploy-aio_metal-jobs
+      - openstack-ansible-deploy-aio_distro_metal-jobs
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
-    check:
-      jobs:
-        - openstack-ansible-deploy-aio_metal_swift-centos-7
-        - openstack-ansible-deploy-aio_metal_swift-debian-stable
-        - openstack-ansible-deploy-aio_metal_swift-ubuntu-bionic
-        - openstack-ansible-deploy-aio_distro_metal_swift-centos-7
-    gate:
-      jobs:
-        - openstack-ansible-deploy-aio_metal_swift-centos-7
-        - openstack-ansible-deploy-aio_metal_swift-debian-stable
-        - openstack-ansible-deploy-aio_metal_swift-ubuntu-bionic
-        - openstack-ansible-deploy-aio_distro_metal_swift-centos-7
-    experimental:
-      jobs:
-        - openstack-ansible-deploy-aio_metal_swift-opensuse-150
-        - openstack-ansible-deploy-aio_distro_metal_swift-opensuse-150
-        - openstack-ansible-deploy-aio_distro_metal_swift-ubuntu-bionic

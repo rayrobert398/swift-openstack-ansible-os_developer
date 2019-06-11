@@ -32,10 +32,17 @@ swift_service_distro_packages:
   - python-memcache
   - python-swift
   - swift
+
+swift_account_distro_packages:
   - swift-account
+
+swift_container_distro_packages:
   - swift-container
+
+swift_object_distro_packages:
   - swift-object
-  - swift-plugin-s3
+
+swift_proxy_distro_packages:
   - swift-proxy
 
 swift_rsync_service_name: rsync

@@ -29,13 +29,21 @@ swift_devel_distro_packages:
 
 swift_service_distro_packages:
   - openstack-swift
-  - openstack-swift-account
-  - openstack-swift-container
-  - openstack-swift-object
-  - openstack-swift-proxy
   - python-keystonemiddleware
   - python-memcached
   - python-swift
+
+swift_account_distro_packages:
+  - openstack-swift-account
+
+swift_container_distro_packages:
+  - openstack-swift-container
+
+swift_object_distro_packages:
+  - openstack-swift-object
+
+swift_proxy_distro_packages:
+  - openstack-swift-proxy
 
 swift_rsync_service_name: rsyncd
 

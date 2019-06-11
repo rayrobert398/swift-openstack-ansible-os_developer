@@ -13,5 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-swift_package_list: "{{ swift_distro_packages + swift_service_distro_packages }}"
+swift_package_list: |-
+  {% set packages = swift_distro_packages %}
+  {% if swift_services['swift-account-server']['group'] in group_names %}
+  {%      set _ = packages.extend(swift_account_distro_packages) %}
+  {% endif %}
+  {% if swift_services['swift-container-server']['group'] in group_names %}
+  {%      set _ = packages.extend(swift_container_distro_packages) %}
+  {% endif %}
+  {% if swift_services['swift-object-server']['group'] in group_names %}
+  {%      set _ = packages.extend(swift_object_distro_packages) %}
+  {% endif %}
+  {% if swift_services['swift-proxy-server']['group'] in group_names %}
+  {%      set _ = packages.extend(swift_proxy_distro_packages) %}
+  {% endif %}
+  {% set _ = packages.extend(swift_service_distro_packages) %}
+  {{ packages }}
+
 _swift_bin: "/usr/bin"

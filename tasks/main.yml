@@ -148,7 +148,38 @@
     - common-mq
     - swift-config
 
-- import_tasks: swift_service_setup.yml
+- import_tasks: service_setup.yml
+  vars:
+    _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
+    _service_in_ldap: "{{ swift_service_in_ldap }}"
+    _service_setup_host: "{{ swift_service_setup_host }}"
+    _service_setup_host_python_interpreter: "{{ swift_service_setup_host_python_interpreter }}"
+    _service_project_name: "{{ swift_service_project_name }}"
+    _service_users:
+      - name: "{{ swift_service_user_name }}"
+        password: "{{ swift_service_password }}"
+        role: "{{ swift_service_role_name }}"
+      - name: "{{ swift_dispersion_user }}"
+        password: "{{ swift_dispersion_password }}"
+        role: "{{ swift_operator_role }}"
+      - name: "{{ ceilometer_service_user_name | default('ceilometer') }}"
+        role: "{{ swift_reselleradmin_role }}"
+        project: "{{ ceilometer_service_project_name | default('service') }}"
+        condition: "{{ swift_ceilometer_enabled | bool }}"
+    _service_endpoints:
+      - service: "{{ swift_service_name }}"
+        interface: "public"
+        url: "{{ swift_service_publicurl }}"
+      - service: "{{ swift_service_name }}"
+        interface: "internal"
+        url: "{{ swift_service_internalurl }}"
+      - service: "{{ swift_service_name }}"
+        interface: "admin"
+        url: "{{ swift_service_adminurl }}"
+    _service_catalog:
+      - name: "{{ swift_service_name }}"
+        type: "{{ swift_service_type }}"
+        description: "{{ swift_service_description }}"
   when:
     - "swift_do_setup | bool"
     - '"keystoneauth" in swift_middleware_list'

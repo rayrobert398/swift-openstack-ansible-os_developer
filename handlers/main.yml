@@ -23,12 +23,6 @@
   listen:
     - "venv changed"
 
-- name: Restart rsyslog
-  service:
-    name: "rsyslog"
-    state: "restarted"
-    enabled: "yes"
-
 - name: Restart rsync service
   service:
     name: "{{ swift_rsync_service_name }}"

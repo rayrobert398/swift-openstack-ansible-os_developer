@@ -13,7 +13,6 @@ workers = {{ swift_object_server_workers | default(api_threads) }}
 user = {{ swift_system_user_name }}
 swift_dir = /etc/swift
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
-log_facility = LOG_LOCAL4
 
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}
@@ -32,7 +31,6 @@ pipeline = healthcheck recon object-server
 
 [app:object-server]
 use = egg:swift#object
-log_facility = LOG_LOCAL4
 mb_per_sync = 64
 
 [filter:healthcheck]
@@ -40,30 +38,23 @@ use = egg:swift#healthcheck
 
 [filter:recon]
 use = egg:swift#recon
-log_facility = LOG_LOCAL4
 recon_cache_path = /var/cache/swift
 recon_lock_path = /var/lock
 
 {% if not swift_dedicated_replication %}
 [object-replicator]
-log_facility = LOG_LOCAL4
 concurrency = 6
 reclaim_age = {{ reclaim_age | default(604800) }}
 {%   if swift_rsync_module_per_drive %}
 rsync_module = {replication_ip}::object_{device}
 {%   endif %}
 
-[object-auditor]
-log_facility = LOG_LOCAL4
-
 [object-reconstructor]
-log_facility = LOG_LOCAL4
 concurrency = 6
 reclaim_age = {{ reclaim_age | default(604800) }}
 {% endif %}
 
 [object-updater]
-log_facility = LOG_LOCAL4
 concurrency = 3
 concurrency = 3
 node_timeout = 60

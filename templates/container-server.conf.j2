@@ -12,7 +12,6 @@ workers = {{ swift_container_server_workers | default(api_threads) }}
 
 user = {{ swift_system_user_name }}
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
-log_facility = LOG_LOCAL3
 
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}
@@ -31,7 +30,6 @@ pipeline = healthcheck recon container-server
 
 [app:container-server]
 use = egg:swift#container
-log_facility = LOG_LOCAL3
 allow_versions = {{ swift_allow_versions }}
 
 [filter:healthcheck]
@@ -39,21 +37,15 @@ use = egg:swift#healthcheck
 
 [filter:recon]
 use = egg:swift#recon
-log_facility = LOG_LOCAL3
 recon_cache_path = /var/cache/swift
 recon_lock_path = /var/lock
 
 {% if not swift_dedicated_replication %}
 [container-replicator]
-log_facility = LOG_LOCAL3
 reclaim_age = {{ reclaim_age | default(604800) }}
-
-[container-auditor]
-log_facility = LOG_LOCAL3
 {% endif %}
 
 [container-updater]
-log_facility = LOG_LOCAL3
 node_timeout = 15
 conn_timeout = 5
 

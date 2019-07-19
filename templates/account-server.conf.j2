@@ -12,7 +12,6 @@ workers = {{ swift_account_server_workers | default(api_threads) }}
 
 user = {{ swift_system_user_name }}
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
-log_facility = LOG_LOCAL2
 
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}
@@ -31,29 +30,22 @@ pipeline = healthcheck recon account-server
 
 [app:account-server]
 use = egg:swift#account
-log_facility = LOG_LOCAL2
 
 [filter:healthcheck]
 use = egg:swift#healthcheck
 
 [filter:recon]
 use = egg:swift#recon
-log_facility = LOG_LOCAL2
 recon_cache_path = /var/cache/swift
 recon_lock_path = /var/lock
 
 {% if not swift_dedicated_replication %}
 [account-replicator]
-log_facility = LOG_LOCAL2
 per_diff = 10000
 reclaim_age = {{ reclaim_age | default(604800) }}
-
-[account-auditor]
-log_facility = LOG_LOCAL2
 {% endif %}
 
 [account-reaper]
-log_facility = LOG_LOCAL2
 delay_reaping = 604800
 
 [filter:xprofile]

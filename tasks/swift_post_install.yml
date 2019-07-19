@@ -38,16 +38,6 @@
   notify:
     - Restart swift services
 
-- name: Copy swift config
-  template:
-    src: "swift-rsyslog.conf.j2"
-    dest: "/etc/rsyslog.d/49-swift.conf"
-    owner: "{{ swift_system_user_name }}"
-    group: "{{ swift_system_group_name }}"
-  notify:
-    - Restart swift services
-    - Restart rsyslog
-
 - name: Enable SSHD
   systemd:
     name: "{{ swift_sshd }}"

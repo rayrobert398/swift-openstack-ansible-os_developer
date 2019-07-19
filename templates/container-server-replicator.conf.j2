@@ -10,7 +10,6 @@ bind_ip = {{ swift_replication_address }}
 bind_port = {{ swift_container_port }}
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
 workers = {{ swift_server_replicator_workers | default(api_threads) }}
-log_facility = LOG_LOCAL3
 
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}
@@ -29,8 +28,4 @@ use = egg:swift#container
 replication_server = True
 
 [container-replicator]
-log_facility = LOG_LOCAL3
 reclaim_age = {{ reclaim_age | default(604800) }}
-
-[container-auditor]
-log_facility = LOG_LOCAL3

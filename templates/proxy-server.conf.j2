@@ -8,7 +8,6 @@ bind_port = {{ swift_proxy_port }}
 workers = {{ swift_proxy_server_workers }}
 
 user = {{ swift_system_user_name }}
-log_facility = LOG_LOCAL1
 
 {% set _statsd_host = swift_proxy_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}
@@ -27,7 +26,6 @@ use = egg:swift#copy
 
 [app:proxy-server]
 use = egg:swift#proxy
-log_facility = LOG_LOCAL1
 node_timeout = 60
 conn_timeout = 3.5
 account_autocreate = true

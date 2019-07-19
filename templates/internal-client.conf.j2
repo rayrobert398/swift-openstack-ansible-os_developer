@@ -1,5 +1,4 @@
 [DEFAULT]
-log_facility = LOG_LOCAL3
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}
 log_statsd_host = {{ _statsd_host }}

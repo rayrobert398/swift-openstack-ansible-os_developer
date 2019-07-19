@@ -5,7 +5,6 @@
 use_stderr = False
 swift_dir = /etc/swift
 user = {{ swift_system_user_name }}
-log_facility = LOG_LOCAL3
 
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
 {% if _statsd_host | bool %}

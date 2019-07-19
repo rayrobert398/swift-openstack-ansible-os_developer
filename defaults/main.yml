@@ -60,13 +60,6 @@ swift_system_shell: /bin/bash
 swift_system_comment: swift system user
 swift_system_home_folder: "/var/lib/{{ swift_system_user_name }}"
 
-## Swift Syslog User / Group
-swift_syslog_user_name: syslog
-# NOTE(hwoarang) The syslog user on openSUSE belongs to the 'users'
-# group. There is no dedicated syslog group.
-swift_syslog_group_name: "{{ (ansible_pkg_mgr == 'zypper') | ternary ('users', 'syslog') }}"
-swift_syslog_log_perms: "0644"
-
 ## Auth token
 swift_delay_auth_decision: true
 
@@ -319,6 +312,7 @@ swift_pip_packages:
   - python-memcached
   - python-swiftclient
   - swift
+  - systemd-python
 
 swift_account_replicator_init_overrides: {}
 swift_account_replicator_server_init_overrides: {}

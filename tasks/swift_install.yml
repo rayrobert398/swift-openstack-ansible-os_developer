@@ -40,6 +40,7 @@
   import_role:
     name: "python_venv_build"
   vars:
+    venv_python_executable: "{{ swift_venv_python_executable }}"
     venv_build_constraints: "{{ swift_git_constraints }}"
     venv_build_distro_package_list: "{{ swift_devel_distro_packages }}"
     venv_install_destination_path: "{{ swift_bin | dirname }}"

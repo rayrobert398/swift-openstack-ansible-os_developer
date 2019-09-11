@@ -36,7 +36,7 @@ def get_build_file_data(build_file):
     build_file_data = None
     if exists(build_file):
         try:
-            with open(build_file) as bf_stream:
+            with open(build_file, 'rb') as bf_stream:
                 build_file_data = pickle.load(bf_stream)
         except Exception as ex:
             print("Error: failed to load build file '%s': %s" % (build_file,

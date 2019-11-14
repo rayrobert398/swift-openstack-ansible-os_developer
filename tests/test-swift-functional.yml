@@ -110,7 +110,7 @@
   tasks:
     - name: Clone swift repository on proxy-host
       git:
-        repo: "https://git.openstack.org/openstack/swift"
+        repo: "https://opendev.org/openstack/swift"
         dest: "/opt/swift"
         update: yes
         clone: yes

@@ -28,9 +28,9 @@ swift_devel_distro_packages:
   - libssl-dev
 
 swift_service_distro_packages:
-  - python-keystonemiddleware
-  - python-memcache
-  - python-swift
+  - python3-keystonemiddleware
+  - python3-memcache
+  - python3-swift
   - swift
 
 swift_account_distro_packages:

@@ -155,6 +155,7 @@
     _service_setup_host: "{{ swift_service_setup_host }}"
     _service_setup_host_python_interpreter: "{{ swift_service_setup_host_python_interpreter }}"
     _service_project_name: "{{ swift_service_project_name }}"
+    _service_region: "{{ swift_service_region }}"
     _service_users:
       - name: "{{ swift_service_user_name }}"
         password: "{{ swift_service_password }}"

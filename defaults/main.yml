@@ -36,10 +36,10 @@ swift_install_method: "source"
 swift_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
 
 # Git repo details for swift
-swift_git_repo: https://git.openstack.org/openstack/swift
+swift_git_repo: https://opendev.org/openstack/swift
 swift_git_install_branch: master
 
-swift_upper_constraints_url: "{{ requirements_git_url | default('https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt?h=' ~ requirements_git_install_branch | default('master')) }}"
+swift_upper_constraints_url: "{{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}"
 swift_git_constraints:
   - "git+{{ swift_git_repo }}@{{ swift_git_install_branch }}#egg=swift"
   - "--constraint {{ swift_upper_constraints_url }}"

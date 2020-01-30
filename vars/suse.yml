@@ -25,6 +25,7 @@ swift_devel_distro_packages:
   - liberasurecode-devel
   - libffi-devel
   - libopenssl-devel
+  - systemd-devel
 
 swift_service_distro_packages:
   - openstack-swift

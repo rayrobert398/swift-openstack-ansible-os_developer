@@ -26,6 +26,7 @@ swift_devel_distro_packages:
   - liberasurecode-dev
   - libffi-dev
   - libssl-dev
+  - libsystemd-dev
 
 swift_service_distro_packages:
   - python3-keystonemiddleware

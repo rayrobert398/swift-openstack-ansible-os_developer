@@ -310,10 +310,14 @@ swift_pip_packages:
   - osprofiler
   - pyeclib
   - python-keystoneclient
+  - pymemcache
   - python-memcached
   - python-swiftclient
   - swift
   - systemd-python
+
+# Memcached override
+swift_memcached_servers: "{{ memcached_servers }}"
 
 swift_account_replicator_init_overrides: {}
 swift_account_replicator_server_init_overrides: {}

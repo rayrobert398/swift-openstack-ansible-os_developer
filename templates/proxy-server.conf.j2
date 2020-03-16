@@ -67,7 +67,7 @@ password = {{ swift_service_password }}
 delay_auth_decision = {{ swift_delay_auth_decision }}
 include_service_catalog = False
 {% if memcached_servers is defined %}
-memcached_servers = {{ memcached_servers }}
+memcached_servers = {{ swift_memcached_servers }}
 cache = swift.cache
 
 token_cache_time = 300

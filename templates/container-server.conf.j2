@@ -45,6 +45,9 @@ recon_lock_path = /var/lock
 reclaim_age = {{ reclaim_age | default(604800) }}
 {% endif %}
 
+#TODO(jamesdenton): Remove config section when no longer required for service to start
+[container-auditor]
+
 [container-updater]
 node_timeout = 15
 conn_timeout = 5

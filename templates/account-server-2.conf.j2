@@ -23,7 +23,7 @@ log_statsd_metric_prefix = {{ swift_vars.statsd_metric_prefix | default(swift.st
 {% endif %}
 
 disable_fallocate = {{ swift_account_disable_fallocate }}
-fallocate_reserve = {{ swift_account_fallocate_reserve }}%
+fallocate_reserve = {{ swift_account_fallocate_reserve }}
 
 [pipeline:main]
 pipeline = healthcheck recon account-server
@@ -44,9 +44,6 @@ recon_lock_path = /var/lock
 per_diff = 10000
 reclaim_age = {{ reclaim_age | default(604800) }}
 {% endif %}
-
-#TODO(jamesdenton): Remove config section when no longer required for service to start
-[account-auditor]
 
 [account-reaper]
 delay_reaping = 604800

@@ -7,10 +7,11 @@
 # Disable stderr logging
 use_stderr = False
 bind_ip = {{ swift_storage_address }}
-bind_port = {{ swift_account_port }}
-workers = {{ swift_account_server_workers | default(api_threads) }}
+bind_port = {{ swift_object_port }}
+workers = {{ swift_object_server_workers | default(api_threads) }}
 
 user = {{ swift_system_user_name }}
+swift_dir = /etc/swift
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
 
 {% set _statsd_host = swift_vars.statsd_host | default(swift.statsd_host | default(statsd_host | default(False))) %}
@@ -22,14 +23,15 @@ log_statsd_sample_rate_factor = {{ swift_vars.statsd_sample_rate_factor | defaul
 log_statsd_metric_prefix = {{ swift_vars.statsd_metric_prefix | default(swift.statsd_metric_prefix | default(inventory_hostname)) }}
 {% endif %}
 
-disable_fallocate = {{ swift_account_disable_fallocate }}
-fallocate_reserve = {{ swift_account_fallocate_reserve }}%
+disable_fallocate = {{ swift_object_disable_fallocate }}
+fallocate_reserve = {{ swift_object_fallocate_reserve }}
 
 [pipeline:main]
-pipeline = healthcheck recon account-server
+pipeline = healthcheck recon object-server
 
-[app:account-server]
-use = egg:swift#account
+[app:object-server]
+use = egg:swift#object
+mb_per_sync = 64
 
 [filter:healthcheck]
 use = egg:swift#healthcheck
@@ -40,18 +42,25 @@ recon_cache_path = /var/cache/swift
 recon_lock_path = /var/lock
 
 {% if not swift_dedicated_replication %}
-[account-replicator]
-per_diff = 10000
+[object-replicator]
+concurrency = 6
+reclaim_age = {{ reclaim_age | default(604800) }}
+{%   if swift_rsync_module_per_drive %}
+rsync_module = {replication_ip}::object_{device}
+{%   endif %}
+
+[object-reconstructor]
+concurrency = 6
 reclaim_age = {{ reclaim_age | default(604800) }}
 {% endif %}
 
-#TODO(jamesdenton): Remove config section when no longer required for service to start
-[account-auditor]
-
-[account-reaper]
-delay_reaping = 604800
+[object-updater]
+concurrency = 3
+concurrency = 3
+node_timeout = 60
+conn_timeout = 5
 
 [filter:xprofile]
 use = egg:swift#xprofile
 
-[account-auditor]
+[object-auditor]

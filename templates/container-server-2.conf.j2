@@ -7,8 +7,8 @@
 # Disable stderr logging
 use_stderr = False
 bind_ip = {{ swift_storage_address }}
-bind_port = {{ swift_account_port }}
-workers = {{ swift_account_server_workers | default(api_threads) }}
+bind_port = {{ swift_container_port }}
+workers = {{ swift_container_server_workers | default(api_threads) }}
 
 user = {{ swift_system_user_name }}
 devices = {{ swift_vars.mount_point | default(swift.mount_point) }}
@@ -22,14 +22,15 @@ log_statsd_sample_rate_factor = {{ swift_vars.statsd_sample_rate_factor | defaul
 log_statsd_metric_prefix = {{ swift_vars.statsd_metric_prefix | default(swift.statsd_metric_prefix | default(inventory_hostname)) }}
 {% endif %}
 
-disable_fallocate = {{ swift_account_disable_fallocate }}
-fallocate_reserve = {{ swift_account_fallocate_reserve }}%
+disable_fallocate = {{ swift_container_disable_fallocate }}
+fallocate_reserve = {{ swift_container_fallocate_reserve }}
 
 [pipeline:main]
-pipeline = healthcheck recon account-server
+pipeline = healthcheck recon container-server
 
-[app:account-server]
-use = egg:swift#account
+[app:container-server]
+use = egg:swift#container
+allow_versions = {{ swift_allow_versions }}
 
 [filter:healthcheck]
 use = egg:swift#healthcheck
@@ -40,18 +41,18 @@ recon_cache_path = /var/cache/swift
 recon_lock_path = /var/lock
 
 {% if not swift_dedicated_replication %}
-[account-replicator]
-per_diff = 10000
+[container-replicator]
 reclaim_age = {{ reclaim_age | default(604800) }}
 {% endif %}
 
-#TODO(jamesdenton): Remove config section when no longer required for service to start
-[account-auditor]
+[container-updater]
+node_timeout = 15
+conn_timeout = 5
 
-[account-reaper]
-delay_reaping = 604800
+[container-sync]
+internal_client_conf_path = /etc/swift/container-server/internal-client.conf
 
 [filter:xprofile]
 use = egg:swift#xprofile
 
-[account-auditor]
+[container-auditor]
